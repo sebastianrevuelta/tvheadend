@@ -1,6 +1,0 @@
-projectKey=TVH-api-key
-serverUrl=http://192.168.1.59
-serverVersion=9.0.0.45539
-dashboardUrl=http://192.168.1.59/dashboard?id=TVH-api-key
-ceTaskId=AXsSobrGXNcWmz-u-cg_
-ceTaskUrl=http://192.168.1.59/api/ce/task?id=AXsSobrGXNcWmz-u-cg_
