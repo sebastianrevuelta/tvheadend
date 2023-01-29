@@ -55,39 +55,72 @@ _video_filters_get_filters(TVHContext *self, AVDictionary **opts, char **filters
     if (tvh_context_get_int_opt(opts, "tvh_filter_deint", &filter_deint)) {
         return -1;
     }
-    filter_download = (ihw && (!ohw || filter_scale || filter_deint)) ? 1 : 0;
-    filter_upload = ((filter_download || !ihw) && ohw) ? 1 : 0;
+    //  in --> out  |  download   |   upload 
+    // -------------|-------------|------------
+    //  hw --> hw   |     0       |     0
+    //  sw --> hw   |     0       |     1
+    //  hw --> sw   |     1       |     0
+    //  sw --> sw   |     0       |     0
+    filter_download = (ihw && (!ohw)) ? 1 : 0;
+    filter_upload = ((!ihw) && ohw) ? 1 : 0;
 
     memset(deint, 0, sizeof(deint));
     memset(hw_deint, 0, sizeof(hw_deint));
 #if ENABLE_HWACCELS
-    if (filter_deint &&
-        hwaccels_get_deint_filter(self->iavctx, hw_deint, sizeof(hw_deint))) {
+    if (filter_deint) {
+        // when hwaccel is enabled we have two options:
+        if (ihw) {
+            // hw deint
+            hwaccels_get_deint_filter(self->iavctx, hw_deint, sizeof(hw_deint));
+        }
+        else {
+            // sw deint
+            if (str_snprintf(deint, sizeof(deint), "yadif")) {
+                return -1;
+            }
+        }
+    }
 #else
     if (filter_deint) {
-#endif
         if (str_snprintf(deint, sizeof(deint), "yadif")) {
             return -1;
         }
     }
+#endif
 
     memset(scale, 0, sizeof(scale));
     memset(hw_scale, 0, sizeof(hw_scale));
 #if ENABLE_HWACCELS
-    if (filter_scale &&
-        hwaccels_get_scale_filter(self->iavctx, self->oavctx, hw_scale, sizeof(hw_scale))) {
+    if (filter_scale) {
+        // when hwaccel is enabled we have two options:
+        if (ihw) {
+            // hw scale
+            hwaccels_get_scale_filter(self->iavctx, self->oavctx, hw_scale, sizeof(hw_scale));
+        }
+        else {
+            // sw scale
+            if (str_snprintf(scale, sizeof(scale), "scale=w=-2:h=%d",
+                         self->oavctx->height)) {
+                return -1;
+            }
+        }
+    }
 #else
     if (filter_scale) {
-#endif
         if (str_snprintf(scale, sizeof(scale), "scale=w=-2:h=%d",
                          self->oavctx->height)) {
             return -1;
         }
     }
+#endif
 
+#if ENABLE_HWACCELS
+    // no filter required.
+#else
     if (deint[0] == '\0' && scale[0] == '\0') {
         filter_download = filter_upload = 0;
     }
+#endif
 
     memset(download, 0, sizeof(download));
     if (filter_download &&
@@ -162,7 +195,7 @@ tvh_video_context_open_encoder(TVHContext *self, AVDictionary **opts)
 #if ENABLE_HWACCELS
     self->oavctx->coded_width = self->oavctx->width;
     self->oavctx->coded_height = self->oavctx->height;
-    if (hwaccels_encode_setup_context(self->oavctx)) {
+    if (hwaccels_encode_setup_context(self->oavctx, self->profile->low_power)) {
         return -1;
     }
 #endif

@@ -51,10 +51,8 @@ CFLAGS  += -Werror
 endif
 CFLAGS  += -Wall -Wwrite-strings -Wno-deprecated-declarations
 CFLAGS  += -Wmissing-prototypes
-CFLAGS  += -fms-extensions -funsigned-char -fno-strict-aliasing
-ifeq ($(COMPILER), gcc)
-CFLAGS  += -Wno-stringop-truncation -Wno-stringop-overflow
-endif
+CFLAGS  += -fno-strict-aliasing
+CFLAGS  += -fms-extensions -funsigned-char
 CFLAGS  += -D_FILE_OFFSET_BITS=64
 CFLAGS  += -I${BUILDDIR} -I${ROOTDIR}/src -I${ROOTDIR}
 ifeq ($(CONFIG_ANDROID),yes)
@@ -95,7 +93,6 @@ ifeq ($(CONFIG_LIBAV),yes)
 FFMPEG_LIBS := \
     libavfilter \
     libswresample \
-    libavresample \
     libswscale \
     libavformat \
     libavcodec \
@@ -226,6 +223,7 @@ SRCS-1 = \
 	src/access.c \
 	src/tcp.c \
 	src/udp.c \
+	src/udp_stream.c \
 	src/url.c \
 	src/http.c \
 	src/notify.c \

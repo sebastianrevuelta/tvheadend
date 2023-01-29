@@ -1061,7 +1061,6 @@ epg_broadcast_t *epg_broadcast_clone
     *save |= epg_broadcast_set_credits(ebc, src->credits, &changes);
     *save |= epg_broadcast_set_category(ebc, src->category, &changes);
     *save |= epg_broadcast_set_keyword(ebc, src->keyword, &changes);
-    *save |= epg_broadcast_set_description(ebc, src->description, &changes);
     *save |= epg_broadcast_set_serieslink_uri
                (ebc, src->serieslink ? src->serieslink->uri : NULL, &changes);
     *save |= epg_broadcast_set_episodelink_uri
@@ -1107,7 +1106,7 @@ static int _epg_broadcast_set_set
   if (*set == NULL) {
     if (uri == NULL || uri[0] == '\0')
       return 0;
-  } else if (strcmp((*set)->uri ?: "", uri ?: "")) {
+  } else if (strcmp((*set)->uri, uri ?: "")) {
     epg_set_broadcast_remove(tree, *set, ebc);
   } else {
     return 0;

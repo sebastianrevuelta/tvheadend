@@ -1,12 +1,12 @@
 ![TVHeadend Logo](https://github.com/tvheadend/tvheadend/raw/master/src/webui/static/img/satip-icon120.png)
 Tvheadend
 ========================================
-(c) 2006 - 2021 Tvheadend Foundation CIC
+(c) 2006 - 2022 Tvheadend Foundation CIC
 
 Status
 ------
 
-[![Build Status](https://travis-ci.org/tvheadend/tvheadend.svg?branch=master)](https://travis-ci.org/tvheadend/tvheadend)
+[![Build Status](https://github.com/tvheadend/tvheadend/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/tvheadend/tvheadend/actions/workflows/build.yml)
 [![Coverity Scan](https://scan.coverity.com/projects/2114/badge.svg)](https://scan.coverity.com/projects/2114)
 [![Github last commit](https://img.shields.io/github/last-commit/tvheadend/tvheadend)](https://github.com/tvheadend/tvheadend)
 

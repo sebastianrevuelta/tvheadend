@@ -184,6 +184,7 @@ tvhlog_subsys_t tvhlog_subsystems[] = {
 #if ENABLE_DDCI
   [LS_DDCI]          = { "ddci",          N_("DD-CI") },
 #endif
+  [LS_UDP]           = { "udp",           N_("UDP Streamer") },  
 
 };
 
@@ -586,7 +587,7 @@ tvhlog_init ( int level, int options, const char *path )
     if (rtport > 0) {
       tvhlog_rtfd = tvh_socket(AF_INET, SOCK_DGRAM, 0);
       tcp_get_ip_from_str("127.0.0.1", &tvhlog_rtss);
-      IP_AS_V4(tvhlog_rtss, port) = htons(rtport);
+      IP_AS_V4(&tvhlog_rtss, port) = htons(rtport);
     }
   }
 #endif
