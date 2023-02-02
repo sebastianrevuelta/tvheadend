@@ -131,7 +131,7 @@ tvhdhomerun_frontend_input_thread ( void *aux )
     tvhwarn(LS_TVHDHOMERUN, "failed set socket rx buffer size, expect CC errors (%d)", errno);
   }
 
-  memset(&sock_addr, 0, sizeof(sock_addr));
+  memset_s(&sock_addr, 0, sizeof(sock_addr));
   sock_addr.sin_family = AF_INET;
   sock_addr.sin_addr.s_addr = htonl(INADDR_ANY);
   sock_addr.sin_port = config.local_port==0?0:htons(config.local_port + hfe->hf_tunerNumber);
@@ -141,7 +141,7 @@ tvhdhomerun_frontend_input_thread ( void *aux )
     return NULL;
   }
 
-  memset(&sock_addr, 0, sizeof(sock_addr));
+  memset_s(&sock_addr, 0, sizeof(sock_addr));
   if(getsockname(sockfd, (struct sockaddr *) &sock_addr, &sockaddr_len) != 0) {
     tvherror(LS_TVHDHOMERUN, "failed to getsockname: %d", errno);
     close(sockfd);
@@ -152,7 +152,7 @@ tvhdhomerun_frontend_input_thread ( void *aux )
   //hfe->hf_hdhomerun_tuner->vs = sockfd;
 
   /* and tell the device to stream to the local port */
-  memset(target, 0, sizeof(target));
+  memset_s(target, 0, sizeof(target));
   snprintf(target, sizeof(target), "udp://%u.%u.%u.%u:%u",
     (unsigned int)(local_ip >> 24) & 0xFF,
     (unsigned int)(local_ip >> 16) & 0xFF,
@@ -315,7 +315,7 @@ tvhdhomerun_frontend_monitor_cb( void *aux )
   sigstat.signal_scale = mmi->tii_stats.signal_scale = SIGNAL_STATUS_SCALE_RELATIVE;
   sigstat.ber          = mmi->tii_stats.ber;
   sigstat.unc          = atomic_get(&mmi->tii_stats.unc);
-  memset(&sm, 0, sizeof(sm));
+  memset_s(&sm, 0, sizeof(sm));
   sm.sm_type = SMT_SIGNAL_STATUS;
   sm.sm_data = &sigstat;
 

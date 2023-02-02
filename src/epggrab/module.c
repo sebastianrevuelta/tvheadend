@@ -380,7 +380,7 @@ void epggrab_module_parse( void *m, htsmsg_t *data )
   epggrab_module_int_t *mod = m;
 
   /* Parse */
-  memset(&stats, 0, sizeof(stats));
+  memset_s(&stats, 0, sizeof(stats));
   tm1 = getfastmonoclock();
   save |= mod->parse(mod, data, &stats);
   tm2 = getfastmonoclock();
@@ -666,7 +666,7 @@ epggrab_module_activate_socket ( void *m, int a )
     sock = socket(AF_UNIX, SOCK_STREAM, 0);
     assert(sock >= 0);
 
-    memset(&addr, 0, sizeof(struct sockaddr_un));
+    memset_s(&addr, 0, sizeof(struct sockaddr_un));
     addr.sun_family = AF_UNIX;
     strlcpy(addr.sun_path, mod->path, sizeof(addr.sun_path));
     if (bind(sock, (struct sockaddr*)&addr,

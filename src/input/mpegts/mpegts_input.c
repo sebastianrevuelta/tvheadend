@@ -77,7 +77,7 @@ mpegts_input_class_active_get ( void *obj )
 const void *
 mpegts_input_class_network_get ( void *obj )
 {
-  mpegts_network_link_t *mnl;  
+  mpegts_network_link_t *mnl;
   mpegts_input_t *mi = obj;
   htsmsg_t       *l  = htsmsg_create_list();
 
@@ -117,7 +117,7 @@ char *
 mpegts_input_class_network_rend ( void *obj, const char *lang )
 {
   char *str;
-  mpegts_network_link_t *mnl;  
+  mpegts_network_link_t *mnl;
   mpegts_network_t *mn;
   mpegts_input_t *mi = obj;
   htsmsg_t        *l = htsmsg_create_list();
@@ -1080,8 +1080,8 @@ static void mpegts_input_analyze_table_queue ( mpegts_input_t *mi )
   uint16_t counters[8192];
   uint16_t pid;
 
-  memset(&sizes, 0, sizeof(sizes));
-  memset(&counters, 0, sizeof(counters));
+  memset_s(&sizes, 0, sizeof(sizes));
+  memset_s(&counters, 0, sizeof(counters));
   TAILQ_FOREACH(mtf, &mi->mi_table_queue, mtf_link) {
     const uint8_t *tsb = mtf->mtf_tsb;
     pid = ((tsb[1] & 0x1f) << 8) | tsb[2];
@@ -1505,7 +1505,7 @@ mpegts_input_process
       }
 
       type = mp->mp_type;
-      
+
       /* Stream all PIDs */
       LIST_FOREACH(mps, &mm->mm_all_subs, mps_svcraw_link)
         if ((mps->mps_type & MPS_ALL) || (type & (MPS_TABLE|MPS_FTABLE)))
@@ -1596,7 +1596,7 @@ done:
 
     streaming_message_t sm;
     pktbuf_t *pb = pktbuf_alloc(mpkt->mp_data, tsb - mpkt->mp_data);
-    memset(&sm, 0, sizeof(sm));
+    memset_s(&sm, 0, sizeof(sm));
     sm.sm_type = SMT_MPEGTS;
     sm.sm_data = pb;
     streaming_pad_deliver(&mmi->mmi_streaming_pad, streaming_msg_clone(&sm));
@@ -1729,7 +1729,7 @@ mpegts_input_thread ( void * p )
     memoryinfo_free(&mpegts_input_queue_memoryinfo, sizeof(mpegts_packet_t) + mp->mp_len);
     TAILQ_REMOVE(&mi->mi_input_queue, mp, mp_link);
     tvh_mutex_unlock(&mi->mi_input_lock);
-      
+
     /* Process */
     tvh_mutex_lock(&mi->mi_output_lock);
     mpegts_input_table_waiting(mi, mp->mp_mux);
@@ -1994,7 +1994,7 @@ mpegts_input_thread_start ( void *aux )
 {
   mpegts_input_t *mi = aux;
   atomic_set(&mi->mi_running, 1);
-  
+
   tvh_thread_create(&mi->mi_table_tid, NULL,
                     mpegts_input_table_thread, mi, "mi-table");
   tvh_thread_create(&mi->mi_input_tid, NULL,
@@ -2041,7 +2041,7 @@ mpegts_input_status_timer ( void *p )
 
   tvh_mutex_lock(&mi->mi_output_lock);
   LIST_FOREACH(mmi, &mi->mi_mux_active, mmi_active_link) {
-    memset(&st, 0, sizeof(st));
+    memset_s(&st, 0, sizeof(st));
     mpegts_input_stream_status(mmi, &st);
     e = tvh_input_stream_create_msg(&st);
     htsmsg_add_u32(e, "update", 1);
@@ -2062,7 +2062,7 @@ static int mpegts_input_idx = 0;
 mpegts_input_list_t mpegts_input_all;
 
 mpegts_input_t*
-mpegts_input_create0  
+mpegts_input_create0
   ( mpegts_input_t *mi, const idclass_t *class, const char *uuid,
     htsmsg_t *c )
 {
@@ -2077,7 +2077,7 @@ mpegts_input_create0
   snprintf(buf, sizeof(buf), "input %p", mi);
   tprofile_queue_init(&mi->mi_qprofile, buf);
   LIST_INSERT_HEAD(&tvh_inputs, (tvh_input_t*)mi, ti_link);
-  
+
   /* Defaults */
   mi->mi_is_enabled           = mpegts_input_is_enabled;
   mi->mi_display_name         = mpegts_input_display_name;
@@ -2245,7 +2245,7 @@ mpegts_input_set_networks ( mpegts_input_t *mi, htsmsg_t *msg )
       save = 1;
     }
   }
-  
+
   return save;
 }
 

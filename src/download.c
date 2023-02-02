@@ -300,7 +300,7 @@ done:
 void
 download_init( download_t *dn, int subsys )
 {
-  memset(dn, 0, sizeof(*dn));
+  memset_s(dn, 0, sizeof(*dn));
   dn->subsys = subsys;
   dn->pipe_fd = -1;
   sbuf_init(&dn->pipe_sbuf);

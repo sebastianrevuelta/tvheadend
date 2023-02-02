@@ -225,7 +225,7 @@ upnp_server_init(const char *bindaddr)
 {
   int r;
 
-  memset(&upnp_ipv4_multicast, 0, sizeof(upnp_ipv4_multicast));
+  memset_s(&upnp_ipv4_multicast, 0, sizeof(upnp_ipv4_multicast));
   upnp_ipv4_multicast.ss_family       = AF_INET;
   IP_AS_V4(&upnp_ipv4_multicast, port) = htons(1900);
   r = inet_pton(AF_INET, "239.255.255.250", &IP_AS_V4(&upnp_ipv4_multicast, addr));

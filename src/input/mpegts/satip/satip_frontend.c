@@ -158,7 +158,7 @@ satip_frontend_signal_cb( void *aux )
   sigstat.ec_block     = mmi->tii_stats.ec_block;
   sigstat.tc_block     = mmi->tii_stats.tc_block;
   tvh_mutex_unlock(&mmi->tii_stats_mutex);
-  memset(&sm, 0, sizeof(sm));
+  memset_s(&sm, 0, sizeof(sm));
   sm.sm_type = SMT_SIGNAL_STATUS;
   sm.sm_data = &sigstat;
   LIST_FOREACH(svc, &mmi->mmi_mux->mm_transports, s_active_link) {
@@ -1010,7 +1010,7 @@ satip_frontend_decode_rtcp( satip_frontend_t *lfe, const char *name,
    *
    * lock:
    * lock Set to one of the following values:
-   * "0" the frontend is not locked   
+   * "0" the frontend is not locked
    * "1" the frontend is locked
    *
    * quality:
@@ -1064,7 +1064,7 @@ __ver12:
             mmi->tii_stats.signal = 50 * 0xffff / 100;
             mmi->tii_stats.snr = 12 * 0xffff / 15;
           }
-          goto ok;          
+          goto ok;
         } else if (strncmp(s, "ver=1.0;", 8) == 0) {
           if ((s = strstr(s + 8, ";tuner=")) == NULL)
             goto fail;
@@ -1083,7 +1083,7 @@ __ver12:
           mmi->tii_stats.snr = atoi(argv[3]) * 0xffff / 15;
           mmi->tii_stats.snr_scale =
             SIGNAL_STATUS_SCALE_RELATIVE;
-          goto ok;          
+          goto ok;
         } else if (strncmp(s, "ver=1.1;tuner=", 14) == 0) {
           n = http_tokenize(s + 14, argv, 4, ',');
           if (n < 4)
@@ -1259,7 +1259,7 @@ satip_frontend_other_is_waiting( satip_frontend_t *lfe )
   tvh_mutex_lock(&sd->sd_tune_mutex);
   TAILQ_FOREACH(lfe2, &lfe->sf_device->sd_frontends, sf_link) count++;
   hashes = alloca(sizeof(int) * count);
-  memset(hashes, 0, sizeof(int) * count);
+  memset_s(hashes, 0, sizeof(int) * count);
   TAILQ_FOREACH(lfe2, &lfe->sf_device->sd_frontends, sf_link) {
     if (lfe2 == lfe) continue;
     tvh_mutex_lock(&lfe2->sf_dvr_lock);
@@ -1779,7 +1779,7 @@ new_tune:
     if (u64_2 >= (uint64_t)i)
       break;
     r = (uint64_t)i - u64_2;
-      
+
     if (tc)
       tvhtrace(LS_SATIP, "%s - last tune diff = %llu (delay = %d)",
                buf, (unsigned long long)u64_2, r);
@@ -1907,7 +1907,7 @@ new_tune:
   sbuf_init_fixed(sb, RTP_PKTS * RTP_PKT_SIZE);
   udp_rtp_packet_destroy_all(lfe);
   lfe->sf_skip_ts = MINMAX(lfe->sf_device->sd_skip_ts, 0, 200) * 188;
-  
+
   lfe->sf_last_activity_tstamp = mclk();
   fatal_timeout = sec2mono(5 + MINMAX(lfe->sf_grace_period, 0, 60));
 
@@ -2088,9 +2088,9 @@ new_tune:
       }
       continue;
     }
-    
+
     if (ev[0].ptr != rtp)
-      continue;     
+      continue;
 
     tc = udp_multirecv_read(&um, rtp->fd, RTP_PKTS, &iovec);
 

@@ -26,7 +26,7 @@ tsdebug_encode_keys
 {
   uint32_t pos = 0, crc;
 
-  memset(dst, 0xff, 188);
+  memset_s(dst, 0xff, 188);
   dst[pos++] = 0x47; /* sync byte */
   dst[pos++] = 0x1f; /* PID MSB */
   dst[pos++] = 0xff; /* PID LSB */

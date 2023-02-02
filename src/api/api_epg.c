@@ -102,10 +102,10 @@ api_epg_entry ( epg_broadcast_t *eb, const char *lang, const access_t *perm, con
     htsmsg_add_str(m, "episodeUri", eb->episodelink->uri);
   if (eb->serieslink)
     htsmsg_add_str(m, "serieslinkUri", eb->serieslink->uri);
-  
+
   /* Channel Info */
   api_epg_add_channel(m, ch, *blank);
-  
+
   /* Time */
   htsmsg_add_s64(m, "start", eb->start);
   htsmsg_add_s64(m, "stop", eb->stop);
@@ -220,7 +220,7 @@ api_epg_entry ( epg_broadcast_t *eb, const char *lang, const access_t *perm, con
   /* Next event */
   if ((eb = epg_broadcast_get_next(eb)))
     htsmsg_add_u32(m, "nextEventId", eb->id);
-  
+
   return m;
 }
 
@@ -337,7 +337,7 @@ api_epg_grid
   htsmsg_t *l = NULL, *e, *filter;
   const char* mode;
 
-  memset(&eq, 0, sizeof(eq));
+  memset_s(&eq, 0, sizeof(eq));
 
   lang = access_get_lang(perm, htsmsg_get_str(args, "lang"));
   if (lang)
@@ -635,7 +635,7 @@ api_epg_related
   char *lang, *title_esc, *title_anchor;
   epg_set_t *serieslink = NULL;
   const char *title = NULL;
-  
+
   if (htsmsg_get_u32(args, "eventId", &id))
     return EINVAL;
 

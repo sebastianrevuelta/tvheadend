@@ -1019,7 +1019,7 @@ profile_sharer_destroy(profile_chain_t *prch)
 void
 profile_chain_init(profile_chain_t *prch, profile_t *pro, void *id, int queue)
 {
-  memset(prch, 0, sizeof(*prch));
+  memset_s(prch, 0, sizeof(*prch));
   if (pro)
     profile_grab(pro);
   prch->prch_pro = pro;
@@ -1083,14 +1083,14 @@ profile_chain_raw_open(profile_chain_t *prch, void *id, size_t qsize, int muxer)
 {
   muxer_config_t c;
 
-  memset(prch, 0, sizeof(*prch));
+  memset_s(prch, 0, sizeof(*prch));
   prch->prch_id    = id;
   prch->prch_flags = SUBSCRIPTION_MPEGTS;
   streaming_queue_init(&prch->prch_sq, SMT_PACKET, qsize);
   prch->prch_sq_used = 1;
   prch->prch_st    = &prch->prch_sq.sq_st;
   if (muxer) {
-    memset(&c, 0, sizeof(c));
+    memset_s(&c, 0, sizeof(c));
     c.m_type = MC_RAW;
     prch->prch_muxer = muxer_create(&c, NULL);
   }
@@ -1453,7 +1453,7 @@ profile_mpegts_pass_reopen(profile_chain_t *prch,
   if (m_cfg)
     muxer_config_copy(&c, m_cfg); /* do not alter the original parameter */
   else
-    memset(&c, 0, sizeof(c));
+    memset_s(&c, 0, sizeof(c));
   if (c.m_type != MC_RAW)
     c.m_type = MC_PASS;
   c.u.pass.m_rewrite_sid = pro->pro_rewrite_sid;
@@ -1743,7 +1743,7 @@ profile_mpegts_spawn_reopen(profile_chain_t *prch,
   if (m_cfg)
     muxer_config_copy(&c, m_cfg); /* do not alter the original parameter */
   else
-    memset(&c, 0, sizeof(c));
+    memset_s(&c, 0, sizeof(c));
   if (c.m_type != MC_RAW)
     c.m_type = MC_PASS;
   c.u.pass.m_rewrite_sid = pro->pro_rewrite_sid;
@@ -1867,7 +1867,7 @@ profile_matroska_reopen(profile_chain_t *prch,
   if (m_cfg)
     muxer_config_copy(&c, m_cfg); /* do not alter the original parameter */
   else
-    memset(&c, 0, sizeof(c));
+    memset_s(&c, 0, sizeof(c));
   if (c.m_type != MC_WEBM)
     c.m_type = MC_MATROSKA;
   if (pro->pro_webm)
@@ -1974,7 +1974,7 @@ profile_audio_reopen(profile_chain_t *prch,
   if (m_cfg)
     muxer_config_copy(&c, m_cfg); /* do not alter the original parameter */
   else
-    memset(&c, 0, sizeof(c));
+    memset_s(&c, 0, sizeof(c));
   c.m_type = pro->pro_mc != MC_UNKNOWN ? pro->pro_mc : MC_MPEG2AUDIO;
   c.u.audioes.m_force_type = pro->pro_mc;
   c.u.audioes.m_index = pro->pro_index;
@@ -2044,7 +2044,7 @@ profile_libav_mpegts_reopen(profile_chain_t *prch,
   if (m_cfg)
     muxer_config_copy(&c, m_cfg); /* do not alter the original parameter */
   else
-    memset(&c, 0, sizeof(c));
+    memset_s(&c, 0, sizeof(c));
   c.m_type = MC_MPEGTS;
 
   assert(!prch->prch_muxer);
@@ -2132,7 +2132,7 @@ profile_libav_matroska_reopen(profile_chain_t *prch,
   if (m_cfg)
     muxer_config_copy(&c, m_cfg); /* do not alter the original parameter */
   else
-    memset(&c, 0, sizeof(c));
+    memset_s(&c, 0, sizeof(c));
   if (c.m_type != MC_AVWEBM)
     c.m_type = MC_AVMATROSKA;
   if (pro->pro_webm)
@@ -2197,7 +2197,7 @@ profile_libav_mp4_reopen(profile_chain_t *prch,
   if (m_cfg)
     muxer_config_copy(&c, m_cfg); /* do not alter the original parameter */
   else
-    memset(&c, 0, sizeof(c));
+    memset_s(&c, 0, sizeof(c));
   if (c.m_type != MC_AVMP4)
     c.m_type = MC_AVMP4;
 
@@ -2658,7 +2658,7 @@ profile_transcode_reopen(profile_chain_t *prch,
   if (m_cfg)
     muxer_config_copy(&c, m_cfg); /* do not alter the original parameter */
   else
-    memset(&c, 0, sizeof(c));
+    memset_s(&c, 0, sizeof(c));
   if (!profile_transcode_mc_valid(c.m_type)) {
     c.m_type = pro->pro_mc;
     if (!profile_transcode_mc_valid(c.m_type))

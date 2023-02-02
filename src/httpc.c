@@ -1779,7 +1779,7 @@ http_client_testsuite_data_received( http_client_t *hc, void *data, size_t len )
 {
   fprintf(stderr, "HTTPCTS: Data received (len=%zi)\n", len);
   /* check, if the data memory area is OK */
-  memset(data, 0xa5, len);
+  memset_s(data, 0xa5, len);
   return 0;
 }
 

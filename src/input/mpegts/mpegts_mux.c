@@ -76,7 +76,7 @@ mpegts_mux_instance_create0
   /* Setup links */
   mmi->mmi_mux   = mm;
   mmi->mmi_input = mi;
-  
+
   /* Callbacks */
   mmi->tii_delete = mpegts_mux_instance_delete;
   mmi->tii_clear_stats = tvh_input_instance_clear_stats;
@@ -100,7 +100,7 @@ mpegts_mux_scan_active
 
     /* Get timeout */
     t = mpegts_input_grace(mi, mm);
-  
+
     /* Setup timeout */
     mtimer_arm_rel(&mm->mm_scan_timeout, mpegts_mux_scan_timeout, mm, sec2mono(t));
   }
@@ -164,7 +164,7 @@ mpegts_mux_subscribe_linked
 
   if (!mi2)
     return;
-  
+
   if (!mpegts_mux_keep_exists(mi) && (r = mpegts_mux_subscribe_keep(mm, mi))) {
     serr = "active1";
     goto fatal;
@@ -416,7 +416,7 @@ mpegts_mux_class_scan_state_set ( void *o, const void *p )
   /* Ignore */
   if (!mm->mm_is_enabled(mm))
     return 0;
-  
+
   /* Start */
   if (state == MM_SCAN_STATE_PEND ||
       state == MM_SCAN_STATE_IPEND ||
@@ -1161,7 +1161,7 @@ mpegts_mux_scan_timeout ( void *aux )
     return;
   }
   mm->mm_scan_init = 1;
-  
+
   /* Check tables */
 again:
   tvh_mutex_lock(&mm->mm_tables_lock);
@@ -1184,7 +1184,7 @@ again:
     }
   }
   tvh_mutex_unlock(&mm->mm_tables_lock);
-      
+
   /* No DATA - give up now */
   if (!c) {
     mpegts_mux_scan_done(mm, mm->mm_nicename, 0);
@@ -1350,7 +1350,7 @@ mpegts_mux_set_tsid ( mpegts_mux_t *mm, uint32_t tsid, int force )
   return 1;
 }
 
-int 
+int
 mpegts_mux_set_crid_authority ( mpegts_mux_t *mm, const char *defauth )
 {
   if (defauth && !strcmp(defauth, mm->mm_crid_authority ?: ""))
@@ -1436,7 +1436,7 @@ mpegts_mux_subscribe
   profile_chain_t prch;
   th_subscription_t *s;
   int err = 0;
-  memset(&prch, 0, sizeof(prch));
+  memset_s(&prch, 0, sizeof(prch));
   prch.prch_id = mm;
   s = subscription_create_from_mux(&prch, (tvh_input_t *)mi,
                                    weight, name,

@@ -31,7 +31,7 @@
 #include <fcntl.h>
 #include <assert.h>
 #include <linux/dvb/dmx.h>
-#include <linux/dvb/frontend.h> 
+#include <linux/dvb/frontend.h>
 
 #define NOSIGNAL(x) (((x) & FE_HAS_SIGNAL) == 0)
 
@@ -87,7 +87,7 @@ linuxdvb_frontend_class_active_get ( void *obj )
 
 CLASS_DOC(linuxdvb_frontend)
 CLASS_DOC(linuxdvb_frontend_dvbs)
-CLASS_DOC(linuxdvb_frontend_dvbt) 
+CLASS_DOC(linuxdvb_frontend_dvbt)
 CLASS_DOC(linuxdvb_frontend_dvbc)
 
 const idclass_t linuxdvb_frontend_class =
@@ -896,7 +896,7 @@ linuxdvb_frontend_monitor ( void *aux )
 
   lfe->mi_display_name((mpegts_input_t*)lfe, buf, sizeof(buf));
   tvhtrace(LS_LINUXDVB, "%s - checking FE status%s", buf, lfe->lfe_ready ? " (ready)" : "");
-  
+
   /* Disabled */
   if (!lfe->mi_enabled && mmi)
     mmi->mmi_mux->mm_stop(mmi->mmi_mux, 1, SM_CODE_ABORTED);
@@ -980,7 +980,7 @@ linuxdvb_frontend_monitor ( void *aux )
     if (status == SIGNAL_GOOD) {
       tvhdebug(LS_LINUXDVB, "%s - locked", buf);
       lfe->lfe_locked = 1;
-  
+
       /* Start input */
       tvh_pipe(O_NONBLOCK, &lfe->lfe_dvr_pipe);
       tvh_mutex_lock(&lfe->lfe_dvr_lock);
@@ -1018,7 +1018,7 @@ linuxdvb_frontend_monitor ( void *aux )
 
   /* Statistics - New API */
 #if DVB_VER_ATLEAST(5,10)
-  memset(&fe_properties, 0, sizeof(fe_properties));
+  memset_s(&fe_properties, 0, sizeof(fe_properties));
 
   /* Signal strength */
   fe_properties[0].cmd = DTV_STAT_SIGNAL_STRENGTH;
@@ -1193,7 +1193,7 @@ linuxdvb_frontend_monitor ( void *aux )
   sigstat.tc_bit       = mmi->tii_stats.tc_bit;
   sigstat.ec_block     = mmi->tii_stats.ec_block;
   sigstat.tc_block     = mmi->tii_stats.tc_block;
-  memset(&sm, 0, sizeof(sm));
+  memset_s(&sm, 0, sizeof(sm));
   sm.sm_type = SMT_SIGNAL_STATUS;
   sm.sm_data = &sigstat;
 
@@ -1236,7 +1236,7 @@ linuxdvb_frontend_open_pid0
 
   /* Install filter */
   tvhtrace(LS_LINUXDVB, "%s - open PID %04X (%d) fd %d", name, pid, pid, fd);
-  memset(&dmx_param, 0, sizeof(dmx_param));
+  memset_s(&dmx_param, 0, sizeof(dmx_param));
   dmx_param.pid      = pid;
   dmx_param.input    = DMX_IN_FRONTEND;
   dmx_param.output   = DMX_OUT_TS_TAP;
@@ -1365,7 +1365,7 @@ linuxdvb_frontend_input_thread ( void *aux )
 
   /* Setup poll */
   efd = tvhpoll_create(2);
-  memset(ev, 0, sizeof(ev));
+  memset_s(ev, 0, sizeof(ev));
   ev[0].events = TVHPOLL_IN;
   ev[0].fd     = dvr;
   ev[0].ptr    = lfe;
@@ -1406,7 +1406,7 @@ linuxdvb_frontend_input_thread ( void *aux )
 
     nodata = 50;
     lfe->lfe_nodata = 0;
-    
+
     /* Read */
     if ((n = sbuf_read(&sb, dvr)) < 0) {
       if (ERRNO_AGAIN(errno))
@@ -1429,7 +1429,7 @@ linuxdvb_frontend_input_thread ( void *aux )
         sbuf_cut(&sb, skip - (counter - n));
       }
     }
-    
+
     /* Process */
     mpegts_input_recv_packets(mmi, &sb, 0, NULL);
   }
@@ -1561,9 +1561,9 @@ linuxdvb_frontend_clear
     dvb_mux_conf_t *dmc = &lm->lm_tuning;
 
     struct dtv_property delsys_p;
-    memset(&delsys_p, 0, sizeof(delsys_p));
+    memset_s(&delsys_p, 0, sizeof(delsys_p));
     struct dtv_properties delsys_cmdseq;
-    memset(&delsys_cmdseq, 0, sizeof(delsys_cmdseq));
+    memset_s(&delsys_cmdseq, 0, sizeof(delsys_cmdseq));
     delsys_cmdseq.num = 1;
     delsys_cmdseq.props = &delsys_p;
     delsys_p.cmd = DTV_DELIVERY_SYSTEM;
@@ -1726,7 +1726,7 @@ linuxdvb_frontend_tune0
     dvb_mux_conf_str(&lm->lm_tuning, buf2, sizeof(buf2));
     tvhtrace(LS_LINUXDVB, "tuner %s tuning to %s (freq %i)", buf1, buf2, freq);
   }
-  memset(&p, 0, sizeof(p));
+  memset_s(&p, 0, sizeof(p));
   p.frequency                = dmc->dmc_fe_freq;
   p.inversion                = TR(inversion, inv_tbl, INVERSION_AUTO);
   switch (dmc->dmc_fe_type) {
@@ -1779,22 +1779,22 @@ linuxdvb_frontend_tune0
 #if DVB_API_VERSION >= 5
   struct dtv_property cmds[32];
   struct dtv_properties cmdseq;
-  
+
 
   if (freq == (uint32_t)-1)
     freq = p.frequency;
 
-  memset(&cmdseq, 0, sizeof(cmdseq));
+  memset_s(&cmdseq, 0, sizeof(cmdseq));
   cmdseq.props = cmds;
-  memset(&cmds, 0, sizeof(cmds));
-  
+  memset_s(&cmds, 0, sizeof(cmds));
+
   /* Tune */
 #define S2CMD(c, d) do { \
   cmds[cmdseq.num].cmd      = c; \
   cmds[cmdseq.num++].u.data = d; \
 } while (0)
 
-  memset(&cmds, 0, sizeof(cmds));
+  memset_s(&cmds, 0, sizeof(cmds));
   S2CMD(DTV_DELIVERY_SYSTEM, TR(delsys, delsys_tbl, SYS_UNDEFINED));
   S2CMD(DTV_FREQUENCY,       freq);
   S2CMD(DTV_INVERSION,       p.inversion);
@@ -1974,7 +1974,7 @@ linuxdvb_frontend_tune1
   }
 
   lfe->lfe_in_setup = 0;
-  
+
   return r;
 }
 
@@ -2181,7 +2181,7 @@ linuxdvb_frontend_create
   tvh_mutex_init(&lfe->lfe_dvr_lock, NULL);
   tvh_cond_init(&lfe->lfe_dvr_cond, 1);
   mpegts_pid_init(&lfe->lfe_pids);
- 
+
   /* Create satconf */
   if (lfe->lfe_type == DVB_TYPE_S && !lfe->lfe_satconf && !muuid) {
     scconf = conf ? htsmsg_get_map(conf, "satconf") : NULL;

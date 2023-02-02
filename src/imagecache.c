@@ -319,7 +319,7 @@ imagecache_image_fetch ( imagecache_image_t *img )
 
   /* Build command */
   tvhdebug(LS_IMAGECACHE, "fetch %s", img->url);
-  memset(&url, 0, sizeof(url));
+  memset_s(&url, 0, sizeof(url));
   if (urlparse(img->url, &url)) {
     tvherror(LS_IMAGECACHE, "Unable to parse url '%s'", img->url);
     goto error_lock;
@@ -681,7 +681,7 @@ imagecache_get_id ( const char *url )
     return 0;
 
   tvh_mutex_lock(&imagecache_lock);
-  
+
   /* Skeleton */
   SKEL_ALLOC(imagecache_skel);
   imagecache_skel->url = url;

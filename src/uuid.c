@@ -121,12 +121,12 @@ uuid_set ( tvh_uuid_t *u, const char *str )
 {
   if (str) {
     if (strlen(str) != UUID_HEX_SIZE - 1) {
-      memset(u, 0, sizeof(*u));
+      memset_s(u, 0, sizeof(*u));
       tvherror(LS_UUID, "wrong uuid string size (%zd)", strlen(str));
       return -EINVAL;
     }
     if (hex2bin(u->bin, sizeof(u->bin), str)) {
-      memset(u, 0, sizeof(*u));
+      memset_s(u, 0, sizeof(*u));
       tvherror(LS_UUID, "wrong uuid string '%s'", str);
       return -EINVAL;
     }
@@ -162,7 +162,7 @@ uuid_hexvalid ( const char *uuid )
 void
 uuid_set_init( tvh_uuid_set_t *us, uint32_t alloc_chunk )
 {
-  memset(us, 0, sizeof(*us));
+  memset_s(us, 0, sizeof(*us));
   us->us_alloc_chunk = alloc_chunk ?: 10;
 }
 
@@ -171,7 +171,7 @@ tvh_uuid_set_t *
 uuid_set_copy( tvh_uuid_set_t *dst, const tvh_uuid_set_t *src )
 {
   size_t size;
-  memset(dst, 0, sizeof(*dst));
+  memset_s(dst, 0, sizeof(*dst));
   dst->us_alloc_chunk = src->us_alloc_chunk;
   size = sizeof(tvh_uuid_t) * src->us_size;
   dst->us_array = malloc(size);

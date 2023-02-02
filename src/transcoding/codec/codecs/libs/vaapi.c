@@ -173,8 +173,8 @@ probe_vaapi_device(const char *device, char *name, size_t namelen)
 
     if ((fd = open(device, O_RDWR)) < 0)
         return -1;
-    memset(&dv, 0, sizeof(dv));
-    memset(dname, 0, sizeof(dname));
+    memset_s(&dv, 0, sizeof(dv));
+    memset_s(dname, 0, sizeof(dname));
     dv.name = dname;
     dv.name_len = sizeof(dname)-1;
     if (ioctl(fd, DRM_IOCTL_VERSION, &dv) < 0) {

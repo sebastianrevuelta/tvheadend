@@ -177,7 +177,7 @@ const idclass_t linuxdvb_rotor_usals_class =
       .desc   = N_("Satellite longitude (like 9.0 (east) or -33.0 (west))."),
       .off    = offsetof(linuxdvb_rotor_t, lr_sat_lon),
     },
- 
+
     {}
   }
 };
@@ -492,7 +492,7 @@ linuxdvb_rotor_usals_tune
 
   if (angle < 0) {
     angle = -(angle);
-    cmd   = 0xD000; 
+    cmd   = 0xD000;
   }
   cmd |= (angle / 10) * 0x10 + xtable[angle % 10];
 
@@ -596,7 +596,7 @@ htsmsg_t *
 linuxdvb_rotor_list ( void *o, const char *lang )
 {
   int i;
-  htsmsg_t *m = htsmsg_create_list(); 
+  htsmsg_t *m = htsmsg_create_list();
   htsmsg_add_msg(m, NULL, htsmsg_create_key_val("", tvh_gettext_lang(lang, N_("None"))));
   for (i = 0; i < ARRAY_SIZE(linuxdvb_rotor_all); i++)
     htsmsg_add_msg(m, NULL, htsmsg_create_key_val(linuxdvb_rotor_all[i].name, tvh_gettext_lang(lang, linuxdvb_rotor_all[i].name)));
@@ -629,7 +629,7 @@ linuxdvb_rotor_create0
       }
     }
   }
-                                 
+
   return ld;
 }
 
@@ -653,9 +653,9 @@ int main(int argc, char *argv[])
   linuxdvb_satconf_ele_t lse;
   int angle;
 
-  memset(&lr, 0, sizeof(lr));
-  memset(&ls, 0, sizeof(ls));
-  memset(&lse, 0, sizeof(lse));
+  memset_s(&lr, 0, sizeof(lr));
+  memset_s(&ls, 0, sizeof(ls));
+  memset_s(&lse, 0, sizeof(lse));
 
   lse.lse_parent = &ls;
 

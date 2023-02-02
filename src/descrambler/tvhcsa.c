@@ -303,5 +303,5 @@ tvhcsa_destroy ( tvhcsa_t *csa )
       assert(0);
     }
   }
-  memset(csa, 0, sizeof(*csa));
+  memset_s(csa, 0, sizeof(*csa));
 }

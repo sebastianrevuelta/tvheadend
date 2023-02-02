@@ -64,8 +64,8 @@ _video_filters_get_filters(TVHContext *self, AVDictionary **opts, char **filters
     filter_download = (ihw && (!ohw)) ? 1 : 0;
     filter_upload = ((!ihw) && ohw) ? 1 : 0;
 
-    memset(deint, 0, sizeof(deint));
-    memset(hw_deint, 0, sizeof(hw_deint));
+    memset_s(deint, 0, sizeof(deint));
+    memset_s(hw_deint, 0, sizeof(hw_deint));
 #if ENABLE_HWACCELS
     if (filter_deint) {
         // when hwaccel is enabled we have two options:
@@ -88,8 +88,8 @@ _video_filters_get_filters(TVHContext *self, AVDictionary **opts, char **filters
     }
 #endif
 
-    memset(scale, 0, sizeof(scale));
-    memset(hw_scale, 0, sizeof(hw_scale));
+    memset_s(scale, 0, sizeof(scale));
+    memset_s(hw_scale, 0, sizeof(hw_scale));
 #if ENABLE_HWACCELS
     if (filter_scale) {
         // when hwaccel is enabled we have two options:
@@ -122,14 +122,14 @@ _video_filters_get_filters(TVHContext *self, AVDictionary **opts, char **filters
     }
 #endif
 
-    memset(download, 0, sizeof(download));
+    memset_s(download, 0, sizeof(download));
     if (filter_download &&
         str_snprintf(download, sizeof(download), "hwdownload,format=pix_fmts=%s",
                      av_get_pix_fmt_name(self->iavctx->sw_pix_fmt))) {
         return -1;
     }
 
-    memset(upload, 0, sizeof(upload));
+    memset_s(upload, 0, sizeof(upload));
     if (filter_upload &&
         str_snprintf(upload, sizeof(upload), "format=pix_fmts=%s|%s,hwupload",
                      av_get_pix_fmt_name(self->oavctx->sw_pix_fmt),
@@ -225,7 +225,7 @@ tvh_video_context_open_filters(TVHContext *self, AVDictionary **opts)
     char *filters = NULL;
 
     // source args
-    memset(source_args, 0, sizeof(source_args));
+    memset_s(source_args, 0, sizeof(source_args));
     if (str_snprintf(source_args, sizeof(source_args),
             "video_size=%dx%d:pix_fmt=%s:time_base=%d/%d:pixel_aspect=%d/%d",
             self->iavctx->width,

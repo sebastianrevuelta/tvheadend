@@ -155,7 +155,7 @@ static inline void tvh_mutex_check_magic(tvh_mutex_t *mutex, const char *filenam
 
 int tvh_mutex_init(tvh_mutex_t *mutex, const pthread_mutexattr_t *attr)
 {
-  memset(mutex, 0, sizeof(*mutex));
+  memset_s(mutex, 0, sizeof(*mutex));
 #if ENABLE_TRACE
   mutex->magic1 = TVH_THREAD_MUTEX_MAGIC1;
   mutex->magic2 = TVH_THREAD_MUTEX_MAGIC2;

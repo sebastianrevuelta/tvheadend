@@ -1765,10 +1765,10 @@ rtsp_serve(int fd, void **opaque, struct sockaddr_storage *peer,
   char buf[128];
   void *tcp;
 
-  memset(&hc, 0, sizeof(http_connection_t));
+  memset_s(&hc, 0, sizeof(http_connection_t));
   *opaque = &hc;
 
-  memset(&aa, 0, sizeof(aa));
+  memset_s(&aa, 0, sizeof(aa));
   strcpy(buf, "SAT>IP Client ");
   tcp_get_str_from_ip(peer, buf + strlen(buf), sizeof(buf) - strlen(buf));
   aa.aa_representative = buf;

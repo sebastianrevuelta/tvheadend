@@ -180,7 +180,7 @@ cc_new_card(cclient_t *cc, uint16_t caid, uint32_t cardid, uint8_t *ua,
     }
   } else {
     if (allocated)
-      memset(pcard->cs_ra.ua, 0, 8);
+      memset_s(pcard->cs_ra.ua, 0, 8);
   }
 
   if (add && !allocated) {
@@ -201,7 +201,7 @@ cc_new_card(cclient_t *cc, uint16_t caid, uint32_t cardid, uint8_t *ua,
       add_psa[add_pcount] = psa ? psa[i] : NULL;
       add_pcount++;
     }
-    
+
     start_index = pcard->cs_ra.providers_count;
     if (add_pcount == 0) {
       tvhdebug(cc->cc_subsys, "%s: All providers already registered [ID:%08X CAID:%04X]",
@@ -463,7 +463,7 @@ forbid:
         }
     if (i && es->es_nok < CC_MAX_NOKS)
       return;
-    
+
     es->es_keystate = ES_FORBIDDEN;
     if (resolved) /* another reader handles those requests */
       return;
@@ -750,7 +750,7 @@ cc_thread(void *aux)
 
     cc_invalidate_cards(cc);
     caclient_set_status((caclient_t *)cc, CACLIENT_STATUS_READY);
-    
+
     snprintf(name, sizeof(name), "%s:%d", cc->cc_hostname, cc->cc_port);
     cc->cc_name = name;
 

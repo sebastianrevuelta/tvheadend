@@ -258,7 +258,7 @@ static inline size_t dvb_convert(int conv,
 
 int
 dvb_get_string
-  (char *dst, size_t dstlen, const uint8_t *src, size_t srclen, 
+  (char *dst, size_t dstlen, const uint8_t *src, size_t srclen,
    const char *dvb_charset, dvb_string_conv_t *conv)
 {
   int ic = -1;
@@ -308,7 +308,7 @@ dvb_get_string
     ic = convert_iso_8859[src[2]];
     src+=3; srclen-=3;
     break;
-    
+
   case 0x11: /* ISO 10646 */
     ic = convert_ucs2;
     src++; srclen--;
@@ -385,7 +385,7 @@ dvb_get_string
 
 
 int
-dvb_get_string_with_len(char *dst, size_t dstlen, 
+dvb_get_string_with_len(char *dst, size_t dstlen,
 			const uint8_t *buf, size_t buflen, const char *dvb_charset,
       dvb_string_conv_t *conv)
 {
@@ -422,7 +422,7 @@ atsc_utf16_to_utf8(const uint8_t *src, int len, char *buf, int buflen)
 }
 
 /* Decode and convert ATSC Multiple String Structures to UTF-8.
- * 
+ *
  * refer to "ATSC Standard: Program and System Information Protocol for Terrestrial Broadcast and Cable"
  *          (Document A65/2013), Section 6.10, pages 79-82
  */
@@ -474,7 +474,7 @@ atsc_get_string
       if (bytecount > srclen)
         return ls;
 
-      /* Only supports compression type == 0 (none) and 
+      /* Only supports compression type == 0 (none) and
        * text modes == 0x0 .. 0x6, 0x9 .. 0x10, 0x20 .. 0x27, 0x30 .. 0x33 */
 
       if (compressiontype == 0 && (     /* No Compression and one of these: */
@@ -1071,7 +1071,7 @@ dvb_mux_conf_init ( mpegts_network_t *ln,
                     dvb_mux_conf_t *dmc,
                     dvb_fe_delivery_system_t delsys )
 {
-  memset(dmc, 0, sizeof(*dmc));
+  memset_s(dmc, 0, sizeof(*dmc));
   dmc->dmc_fe_type      = dvb_delsys2type(ln, delsys);
   dmc->dmc_fe_delsys    = delsys;
   dmc->dmc_fe_inversion = DVB_INVERSION_AUTO;

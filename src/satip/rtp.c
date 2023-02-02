@@ -163,7 +163,7 @@ satip_rtp_header(satip_rtp_session_t *rtp, struct iovec *v, uint32_t off)
   data[off+5] = (tstamp >> 16) & 0xff;
   data[off+6] = (tstamp >> 8) & 0xff;
   data[off+7] = tstamp & 0xff;
-  memset(data + off + 8, 0xa5, 4);
+  memset_s(data + off + 8, 0xa5, 4);
 }
 
 static int

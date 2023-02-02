@@ -30,7 +30,7 @@ static LIST_HEAD(, qprofile) qprofile_all;
 
 void tprofile_init1(tprofile_t *tprof, const char *name)
 {
-  memset(tprof, 0, sizeof(*tprof));
+  memset_s(tprof, 0, sizeof(*tprof));
   tprof->name = strdup(name);
   tvh_mutex_lock(&tprofile_mutex);
   LIST_INSERT_HEAD(&tprofile_all, tprof, link);
@@ -118,7 +118,7 @@ void tprofile_finish1(tprofile_t *tprof)
 
 void tprofile_queue_init1(qprofile_t *qprof, const char *name)
 {
-  memset(qprof, 0, sizeof(*qprof));
+  memset_s(qprof, 0, sizeof(*qprof));
   qprof->name = strdup(name);
   tvh_mutex_lock(&qprofile_mutex);
   LIST_INSERT_HEAD(&qprofile_all, qprof, link);

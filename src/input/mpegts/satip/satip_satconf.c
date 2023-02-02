@@ -132,7 +132,7 @@ satip_satconf_check_limits
   limit = sfc->sfc_network_limit > 0 ? sfc->sfc_network_limit : 1;
 
 retry:
-  memset(hashes, 0, size * sizeof(int));
+  memset_s(hashes, 0, size * sizeof(int));
   lowest = INT_MAX;
   lowest_lfe = NULL;
 
@@ -513,7 +513,7 @@ satip_satconf_updated_positions
       satip_satconf_create0(lfe, NULL, i);
     sfc = sfc ? TAILQ_NEXT(sfc, sfc_link) : NULL;
   }
-  while (sfc) {   
+  while (sfc) {
     sfc_old = sfc;
     sfc = TAILQ_NEXT(sfc, sfc_link);
     satip_satconf_destroy0(sfc_old);
@@ -538,7 +538,7 @@ satip_satconf_save ( satip_frontend_t *lfe, htsmsg_t *m )
   htsmsg_t *l, *e;
 
   l = htsmsg_create_list();
-  TAILQ_FOREACH(sfc, &lfe->sf_satconf, sfc_link) { 
+  TAILQ_FOREACH(sfc, &lfe->sf_satconf, sfc_link) {
     e = htsmsg_create_map();
     idnode_save(&sfc->sfc_id, e);
     htsmsg_add_msg(l, NULL, e);

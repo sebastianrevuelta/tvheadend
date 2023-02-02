@@ -103,7 +103,7 @@ mpegts_table_dispatch
   /* Pass w/out tableid/len in data */
   else
     ret = mt->mt_callback(mt, sec+3, len-crc_len, tid);
-  
+
   /* Good */
   if(ret >= 0)
     mt->mt_count++;
@@ -127,7 +127,7 @@ mpegts_table_release_ ( mpegts_table_t *mt )
   tprofile_done(&mt->mt_profile);
   if (tvhtrace_enabled()) {
     /* poison */
-    memset(mt, 0xa5, sizeof(*mt));
+    memset_s(mt, 0xa5, sizeof(*mt));
   }
   free(mt);
 }

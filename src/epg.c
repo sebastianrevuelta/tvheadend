@@ -109,7 +109,7 @@ void epg_updated ( void )
  * Object (Generic routines)
  * *************************************************************************/
 
-static void _epg_object_destroy 
+static void _epg_object_destroy
   ( epg_object_t *eo, epg_object_tree_t *tree )
 {
   assert(eo->refcount == 0);
@@ -379,7 +379,7 @@ void epg_episode_epnum_deserialize
   uint32_t u32;
   assert(m && num);
 
-  memset(num, 0, sizeof(epg_episode_num_t));
+  memset_s(num, 0, sizeof(epg_episode_num_t));
 
   if (!htsmsg_get_u32(m, "enum", &u32) ||
       !htsmsg_get_u32(m, "e_num", &u32))
@@ -475,7 +475,7 @@ int epg_channel_ignore_broadcast(channel_t *ch, time_t start)
   return 0;
 }
 
-static void _epg_channel_rem_broadcast 
+static void _epg_channel_rem_broadcast
   ( channel_t *ch, epg_broadcast_t *ebc, epg_broadcast_t *ebc_new )
 {
   RB_REMOVE(&ch->ch_epg_schedule, ebc, sched_link);
@@ -533,7 +533,7 @@ static void _epg_channel_timer_callback ( void *p )
     }
     break;
   }
-  
+
   /* Change (update HTSP) */
   if (cur != ch->ch_epg_now || nxt != ch->ch_epg_next) {
     tvhdebug(LS_EPG, "now/next %u/%u set on %s",
@@ -557,7 +557,7 @@ static void _epg_channel_timer_callback ( void *p )
   if (nxt) nxt->ops->putref(nxt);
 }
 
-static epg_broadcast_t *_epg_channel_add_broadcast 
+static epg_broadcast_t *_epg_channel_add_broadcast
   ( channel_t *ch, epg_broadcast_t **bcast, epggrab_module_t *src,
     int create, int *save, epg_changes_t *changed )
 {
@@ -624,7 +624,7 @@ static epg_broadcast_t *_epg_channel_add_broadcast
       }
     }
   }
-  
+
   /* Changed */
   *save |= 1;
 
@@ -1414,7 +1414,7 @@ int epg_broadcast_set_genre
     }
     g1 = g2;
   }
-  
+
   /* Insert all entries */
   if (genre) {
     LIST_FOREACH(g1, genre, link)
@@ -1505,7 +1505,7 @@ void epg_broadcast_get_epnum ( const epg_broadcast_t *b, epg_episode_num_t *num 
 {
   if (!b || !num) {
     if (num)
-      memset(num, 0, sizeof(*num));
+      memset_s(num, 0, sizeof(*num));
     return;
   }
   *num = b->epnum;
@@ -2010,7 +2010,7 @@ int epg_genre_list_add ( epg_genre_list_t *list, epg_genre_t *genre )
     LIST_INSERT_HEAD(list, g2, link);
   } else {
     while (g1) {
-    
+
       /* Already exists */
       if (g1->code == genre->code) return 0;
 
@@ -2059,7 +2059,7 @@ int epg_genre_list_add_by_str ( epg_genre_list_t *list, const char *str, const c
 
 // Note: if partial=1 and genre is a major only category then all minor
 // entries will also match
-int epg_genre_list_contains 
+int epg_genre_list_contains
   ( epg_genre_list_t *list, epg_genre_t *genre, int partial )
 {
   uint8_t mask = 0xFF;
@@ -2487,7 +2487,7 @@ epg_query ( epg_query_t *eq, access_t *perm )
   if (channel && tag == NULL) {
     if (channel_access(channel, perm, 0))
       _eq_add_channel(eq, channel);
-  
+
   /* Tag based */
   } else if (tag) {
     idnode_list_mapping_t *ilm;

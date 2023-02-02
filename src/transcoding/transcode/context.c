@@ -530,7 +530,7 @@ tvh_context_open_filters(TVHContext *self,
 
     // additional buffersrc params
     if (!strcmp("buffer", source_name) && self->iavctx->hw_frames_ctx) { // hmm...
-        memset(par, 0, sizeof(AVBufferSrcParameters));
+        memset_s(par, 0, sizeof(AVBufferSrcParameters));
         par->format = AV_PIX_FMT_NONE;
         par->hw_frames_ctx = self->iavctx->hw_frames_ctx;
         ret = av_buffersrc_parameters_set(self->iavfltctx, par);

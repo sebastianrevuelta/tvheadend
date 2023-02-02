@@ -686,7 +686,7 @@ void service_mapper_init ( void )
   tvh_thread_create(&service_mapper_tid, NULL, service_mapper_thread, NULL, "svcmap");
 
   /* Defaults */
-  memset(&service_mapper_conf, 0, sizeof(service_mapper_conf));
+  memset_s(&service_mapper_conf, 0, sizeof(service_mapper_conf));
   service_mapper_conf.idnode.in_class = &service_mapper_conf_class;
   service_mapper_conf.d.type_tags = 1;
   service_mapper_conf.d.encrypted = 1;

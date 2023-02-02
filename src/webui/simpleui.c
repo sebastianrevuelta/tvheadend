@@ -73,7 +73,7 @@ dvr_query_filter(dvr_query_result_t *dqr, dvr_entry_filter filter)
 {
   dvr_entry_t *de;
 
-  memset(dqr, 0, sizeof(dvr_query_result_t));
+  memset_s(dqr, 0, sizeof(dvr_query_result_t));
 
   LIST_FOREACH(de, &dvrentries, de_global_link)
     if (filter(de))
@@ -195,7 +195,7 @@ page_simple(http_connection_t *hc,
   if(s != NULL) {
     epg_query_t eq;
 
-    memset(&eq, 0, sizeof(eq));
+    memset_s(&eq, 0, sizeof(eq));
     eq.lang = strdup(lang);
     eq.fulltext = 1;
     eq.stitle = strdup(s);
@@ -218,7 +218,7 @@ page_simple(http_connection_t *hc,
 
       htsbuf_qprintf(hq, "</b>");
 
-      memset(&day, -1, sizeof(struct tm));
+      memset_s(&day, -1, sizeof(struct tm));
       for(k = 0; k < c; k++) {
 	e = eq.result[k];
       
@@ -263,7 +263,7 @@ page_simple(http_connection_t *hc,
     htsbuf_qprintf(hq, "No entries<br>");
   }
   
-  memset(&day, -1, sizeof(struct tm));
+  memset_s(&day, -1, sizeof(struct tm));
 
   for(i = 0; i < c; i++) {
     de = dqr.dqr_array[i];

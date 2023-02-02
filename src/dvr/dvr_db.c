@@ -980,7 +980,7 @@ static int extract_season_episode(epg_episode_num_t *epnum, const char *text)
   uint32_t s = 0, sc = 0, e = 0, ec = 0;
   const char *ch = text;
 
-  memset(epnum, 0, sizeof(*epnum));
+  memset_s(epnum, 0, sizeof(*epnum));
 
   /* Extract season and season count */
   if (strncasecmp(ch, "Season", 6))
@@ -1907,7 +1907,7 @@ dvr_is_better_recording_timeslot(const epg_broadcast_t *new_bcast, const dvr_ent
     if (svf == PROFILE_SVF_UHD && !old_has_svf) {
       old_has_svf = channel_has_correct_service_filter(old_channel, PROFILE_SVF_FHD);
       new_has_svf = channel_has_correct_service_filter(new_channel, PROFILE_SVF_FHD);
-      
+
       if (!old_has_svf && new_has_svf)
         return 1;
 
@@ -2585,7 +2585,7 @@ static dvr_entry_t *_dvr_entry_update
   if (de->de_bcast) {
     epg_broadcast_get_epnum(de->de_bcast, &epnum);
   } else {
-    memset(&epnum, 0, sizeof(epnum));
+    memset_s(&epnum, 0, sizeof(epnum));
   }
   if (epg_episode_number_cmpfull(&de->de_epnum, &epnum)) {
     de->de_epnum = epnum;

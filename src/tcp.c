@@ -120,7 +120,7 @@ tcp_connect(const char *hostname, int port, const char *bindaddr,
 
   errbuf[0] = '\0';
 
-  memset(&bindip, 0, sizeof(bindip));
+  memset_s(&bindip, 0, sizeof(bindip));
   bindip.ss_family = AF_UNSPEC;
   if (bindaddr && bindaddr[0] != '\0') {
     if (tcp_get_ip_from_str(bindaddr, &bindip) == NULL) {
@@ -130,7 +130,7 @@ tcp_connect(const char *hostname, int port, const char *bindaddr,
   }
 
   snprintf(portstr, 6, "%u", port);
-  memset(&hints, 0, sizeof(struct addrinfo));
+  memset_s(&hints, 0, sizeof(struct addrinfo));
   hints.ai_family = AF_UNSPEC;
   res = getaddrinfo(hostname, portstr, &hints, &ai);
   if (res != 0) {
@@ -844,7 +844,7 @@ void *tcp_server_create
 
   snprintf(port_buf, 6, "%d", port);
 
-  memset(&hints, 0, sizeof(struct addrinfo));
+  memset_s(&hints, 0, sizeof(struct addrinfo));
   hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
   if (bindaddr != NULL)
       hints.ai_flags |= AI_NUMERICHOST;
@@ -882,7 +882,7 @@ void *tcp_server_create
   setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(int));
 
   assert(use->ai_addrlen <= sizeof(bound));
-  memset(&bound, 0, sizeof(bound));
+  memset_s(&bound, 0, sizeof(bound));
   memcpy(&bound, use->ai_addr, use->ai_addrlen);
   
   x = bind(fd, use->ai_addr, use->ai_addrlen);
@@ -938,7 +938,7 @@ tcp_server_create
     /* Check which of the systemd-managed descriptors
      * corresponds to the requested server (if any) */
     fd = SD_LISTEN_FDS_START + i;
-    memset(&bound, 0, sizeof(bound));
+    memset_s(&bound, 0, sizeof(bound));
     s_len = sizeof(bound);
     if (getsockname(fd, (struct sockaddr *) &bound, &s_len) != 0) {
       tvherror(LS_TCP, "getsockname failed: %s", strerror(errno));
@@ -1024,7 +1024,7 @@ tcp_default_ip_addr ( struct sockaddr_storage *deflt, int family )
   socklen_t ss_len;
   int sock;
 
-  memset(&ss, 0, sizeof(ss));
+  memset_s(&ss, 0, sizeof(ss));
   ss.ss_family = family == PF_UNSPEC ? tcp_preferred_address_family : family;
   if (inet_pton(ss.ss_family,
                 ss.ss_family == AF_INET ?
@@ -1055,7 +1055,7 @@ tcp_default_ip_addr ( struct sockaddr_storage *deflt, int family )
   else
     IP_AS_V6(&ss, port) = 0;
 
-  memset(deflt, 0, sizeof(*deflt));
+  memset_s(deflt, 0, sizeof(*deflt));
   memcpy(deflt, &ss, ss_len);
 
   close(sock);
@@ -1073,7 +1073,7 @@ tcp_server_bound ( void *server, struct sockaddr_storage *bound, int family )
   uint8_t *ptr;
 
   if (server == NULL) {
-    memset(bound, 0, sizeof(*bound));
+    memset_s(bound, 0, sizeof(*bound));
     return 0;
   }
 

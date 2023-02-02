@@ -97,7 +97,7 @@ codec_get_title(AVCodec *self)
 {
     static __thread char codec_title[TVH_TITLE_LEN];
 
-    memset(codec_title, 0, sizeof(codec_title));
+    memset_s(codec_title, 0, sizeof(codec_title));
     if (
         str_snprintf(codec_title, sizeof(codec_title),
             self->long_name ? "%s: %s%s" : "%s%s%s",

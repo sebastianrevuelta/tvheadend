@@ -1198,7 +1198,7 @@ main(int argc, char **argv)
     umask(0);
   }
 
-  memset(&rl, 0, sizeof(rl));
+  memset_s(&rl, 0, sizeof(rl));
   if (getrlimit(RLIMIT_STACK, &rl) || rl.rlim_cur < 2*1024*1024) {
     rlim_t rl2 = rl.rlim_cur;
     rl.rlim_cur = 2*1024*1024;

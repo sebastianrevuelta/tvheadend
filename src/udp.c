@@ -51,7 +51,7 @@ udp_resolve( udp_connection_t *uc,
 
   snprintf(port_buf, 6, "%d", port);
 
-  memset(&hints, 0, sizeof(struct addrinfo));
+  memset_s(&hints, 0, sizeof(struct addrinfo));
   hints.ai_flags = (receiver ? AI_PASSIVE : 0) | AI_NUMERICSERV;
   hints.ai_family = AF_UNSPEC;
   hints.ai_socktype = SOCK_DGRAM;
@@ -128,7 +128,7 @@ udp_get_ifaddr( int fd, const char *ifname, struct in_addr *addr )
   if (tvh_str_default(ifname, NULL) == NULL)
     return -1;
   
-  memset(&ifreq, 0, sizeof(ifreq));
+  memset_s(&ifreq, 0, sizeof(ifreq));
   strlcpy(ifreq.ifr_name, ifname, IFNAMSIZ);
   
   if (ioctl(fd, SIOCGIFADDR, &ifreq) < 0)
@@ -219,7 +219,7 @@ udp_bind ( int subsystem, const char *name,
       if (multicast_src && *multicast_src) {
         /* Join with specific source address (SSM) */
         struct ip_mreq_source ms;
-        memset(&ms, 0, sizeof(ms));
+        memset_s(&ms, 0, sizeof(ms));
 
         ms.imr_multiaddr = IP_AS_V4(&uc->ip, addr);
 
@@ -251,7 +251,7 @@ udp_bind ( int subsystem, const char *name,
 #else
         struct ip_mreqn      m;
 #endif
-        memset(&m,   0, sizeof(m));
+        memset_s(&m,   0, sizeof(m));
 
         m.imr_multiaddr      = IP_AS_V4(&uc->ip, addr);
 #if !defined(PLATFORM_DARWIN)
@@ -276,7 +276,7 @@ udp_bind ( int subsystem, const char *name,
   /* Bind to IPv6 group */
   } else {
     struct ipv6_mreq m;
-    memset(&m,   0, sizeof(m));
+    memset_s(&m,   0, sizeof(m));
 
     /* Bind */
     if (bind(fd, (struct sockaddr *)&uc->ip, sizeof(struct sockaddr_in6))) {
@@ -340,7 +340,7 @@ udp_bind_double ( udp_connection_t **_u1, udp_connection_t **_u2,
   udp_connection_t *ucs[10];
   int tst = 40, pos = 0, i, port2;
 
-  memset(&ucs, 0, sizeof(ucs));
+  memset_s(&ucs, 0, sizeof(ucs));
   while (1) {
     u1 = udp_bind(subsystem, name1, host, port, NULL, ifname, rxsize1, txsize1);
     if (u1 == NULL || u1 == UDP_FATAL_ERROR)
@@ -408,7 +408,7 @@ udp_sendinit ( int subsystem, const char *name,
     if (uc->ip.ss_family == AF_INET) {
 #if !defined(PLATFORM_DARWIN)
       struct ip_mreqn m;
-      memset(&m, 0, sizeof(m));
+      memset_s(&m, 0, sizeof(m));
       m.imr_ifindex = ifindex;
 #else
       struct in_addr m;
@@ -423,7 +423,7 @@ udp_sendinit ( int subsystem, const char *name,
                 name, ifname, strerror(errno));
     } else {
       struct ipv6_mreq m;
-      memset(&m,   0, sizeof(m));
+      memset_s(&m,   0, sizeof(m));
       m.ipv6mr_interface = ifindex;
 #ifdef SOL_IPV6
       if (setsockopt(fd, SOL_IPV6, IPV6_MULTICAST_IF, &m, sizeof(m))) {

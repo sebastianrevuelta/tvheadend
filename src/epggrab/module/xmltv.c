@@ -58,7 +58,7 @@ static time_t _xmltv_str2time(const char *in)
   int sp = 0;
   char str[32];
 
-  memset(&tm, 0, sizeof(tm));
+  memset_s(&tm, 0, sizeof(tm));
   tm.tm_mday = 1;               /* Day is one-based not zero-based */
   strlcpy(str, in, sizeof(str));
 
@@ -589,13 +589,13 @@ _xmltv_parse_credits(htsmsg_t **out_credits, htsmsg_t *tags)
       char *s, *str2 = NULL, *saveptr = NULL;
       if (str == NULL) continue;
       if (strstr(str, "|") == 0) {
-      
+
         if (strlen(str) > 255) {
           str2 = strdup(str);
           str2[255] = '\0';
           str = str2;
         }
-      
+
         if (!credits_names) credits_names = string_list_create();
         string_list_insert(credits_names, str);
 
@@ -686,7 +686,7 @@ static int _xmltv_parse_programme_tags
   if (epg_channel_ignore_broadcast(ch, start))
     return 0;
 
-  memset(&epnum, 0, sizeof(epnum));
+  memset_s(&epnum, 0, sizeof(epnum));
 
   /*
    * Broadcast

@@ -117,7 +117,7 @@ linuxdvb_ca_slot_info( int fd, linuxdvb_transport_t *lcat, linuxdvb_ca_t *lca )
   en50221_slot_t *slot;
   int state;
 
-  memset(&csi, 0, sizeof(csi));
+  memset_s(&csi, 0, sizeof(csi));
   csi.num = lca->lca_slotnum;
 
   if ((ioctl(fd, CA_GET_SLOT_INFO, &csi)) != 0) {
@@ -288,7 +288,7 @@ linuxdvb_ca_thread ( void *aux )
   int r, monitor, quit = 0, cquit, waitms, busy;
   linuxdvb_ca_write_t *lcw;
   en50221_slot_t *slot;
-  
+
   tvhtrace(LS_EN50221, "ca thread start");
   ev = malloc(sizeof(*ev) * evsize);
   poll = tvhpoll_create(evsize + 1);
@@ -889,7 +889,7 @@ static int linuxdvb_ca_ops_apdu_write
              lcat->lcat_name, datalen);
     return -E2BIG;
   }
-  memset(&ca_msg, 0, sizeof(ca_msg));
+  memset_s(&ca_msg, 0, sizeof(ca_msg));
   ca_msg.index = slot->cil_number; /* correct? */
   ca_msg.length = datalen;
   memcpy(ca_msg.msg, data, datalen);

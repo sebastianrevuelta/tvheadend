@@ -381,7 +381,7 @@ url:
         tvherror(LS_IPTV, "unknown crypto method '%s'", s);
         goto end;
       }
-      memset(&hp->hls_aes128.iv, 0, sizeof(hp->hls_aes128.iv));
+      memset_s(&hp->hls_aes128.iv, 0, sizeof(hp->hls_aes128.iv));
       s = htsmsg_get_str(hp->hls_key, "IV");
       if (s != NULL) {
         if (s[0] != '0' || (s[1] != 'x' && s[1] != 'X') ||

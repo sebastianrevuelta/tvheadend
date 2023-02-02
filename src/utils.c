@@ -369,13 +369,13 @@ sbuf_alloc_fail(size_t len)
 void
 sbuf_init(sbuf_t *sb)
 {
-  memset(sb, 0, sizeof(sbuf_t));
+  memset_s(sb, 0, sizeof(sbuf_t));
 }
 
 void
 sbuf_init_fixed(sbuf_t *sb, int len)
 {
-  memset(sb, 0, sizeof(sbuf_t));
+  memset_s(sb, 0, sizeof(sbuf_t));
   sb->sb_data = malloc(len);
   if (sb->sb_data == NULL)
     sbuf_alloc_fail(len);

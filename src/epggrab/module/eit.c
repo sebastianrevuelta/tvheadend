@@ -113,7 +113,7 @@ typedef struct eit_event
 {
   char              uri[529];
   char              suri[529];
-  
+
   lang_str_t       *title;
   lang_str_t       *subtitle;
   lang_str_t       *summary;
@@ -155,7 +155,7 @@ static void _eit_done(void *mod);
 
 // Dump a descriptor tag for debug (looking for new tags etc...)
 static void
-_eit_dtag_dump 
+_eit_dtag_dump
   ( epggrab_module_t *mod, uint8_t dtag, uint8_t dlen, const uint8_t *buf )
 {
 #if APS_DEBUG
@@ -187,7 +187,7 @@ static dvb_string_conv_t _eit_freesat_conv[2] = {
  */
 static int _eit_get_string_with_len
   ( epggrab_module_t *mod,
-    char *dst, size_t dstlen, 
+    char *dst, size_t dstlen,
     const uint8_t *src, size_t srclen, const char *charset )
 {
   epggrab_module_ota_t *m = (epggrab_module_ota_t *)mod;
@@ -284,7 +284,7 @@ static int _eit_desc_ext_event
     if ( (r = _eit_get_string_with_len(mod, ikey, sizeof(ikey),
                                        iptr, ilen, ev->default_charset)) < 0 )
       break;
-    
+
     ilen -= r;
     iptr += r;
 
@@ -461,7 +461,7 @@ static int _eit_desc_crid
         crid = ev->suri;
         clen = sizeof(ev->suri);
       }
-    
+
       if (crid) {
         if (strstr(buf, "crid://") == buf) {
           strlcpy(crid, buf, clen);
@@ -660,7 +660,7 @@ static int _eit_process_event_one
   if (rsonly) {
     if (!ev->title)
       goto running;
-    memset(&_ebc, 0, sizeof(_ebc));
+    memset_s(&_ebc, 0, sizeof(_ebc));
     _ebc.dvb_eid = eid;
     _ebc.start = start;
     _ebc.stop = stop;
@@ -784,7 +784,7 @@ static int _eit_process_event
 
   if (len < dllen) return -1;
 
-  memset(&ev, 0, sizeof(ev));
+  memset_s(&ev, 0, sizeof(ev));
   if (ed->charset_len)
     ev.default_charset = (char *)ed->data + ed->cridauth_len;
   while (dllen > 2) {
@@ -995,8 +995,8 @@ _eit_callback
     mask <<= (24 - (sa % 32));
     st->sections[sa/32] &= ~mask;
   }
-  
-  /* UK Cable Virgin: EPG data for services in other transponders is transmitted 
+
+  /* UK Cable Virgin: EPG data for services in other transponders is transmitted
   // in the 'actual' transpoder table IDs */
   if ((hacks & EIT_HACK_EXTRAMUXLOOKUP) != 0 && (tableid == 0x50 || tableid == 0x4E)) {
     mm = mpegts_network_find_mux(mm->mm_network, onid, tsid, 1);
@@ -1097,7 +1097,7 @@ done:
 complete:
   if (ota && !r && (tableid >= 0x50 && tableid < 0x60))
     epggrab_ota_complete((epggrab_module_ota_t*)mod, ota);
-  
+
   return r;
 }
 
@@ -1240,7 +1240,7 @@ static int _eit_tune
     return 1;
 
   /* Check if any services are mapped */
-  // TODO: using indirect ref's like this is inefficient, should 
+  // TODO: using indirect ref's like this is inefficient, should
   //       consider changeing it?
   for (osl = RB_FIRST(&map->om_svcs); osl != NULL; osl = nxt) {
     nxt = RB_NEXT(osl, link);
