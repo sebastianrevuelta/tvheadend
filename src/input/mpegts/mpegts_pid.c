@@ -54,7 +54,7 @@ int
 mpegts_pid_init(mpegts_apids_t *pids)
 {
   assert(pids);
-  memset_s(pids, 0, sizeof(*pids));
+  memset(pids, 0, sizeof(*pids));
   pids->sorted = 1;
   return 0;
 }

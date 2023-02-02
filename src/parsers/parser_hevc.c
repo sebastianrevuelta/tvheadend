@@ -749,7 +749,7 @@ static int hvcc_array_add_nal_unit(uint8_t *nal_buf, uint32_t nal_size,
         hvcc->array = n;
 
         for (i = hvcc->numOfArrays; i <= index; i++)
-            memset_s(&hvcc->array[i], 0, sizeof(HVCCNALUnitArray));
+            memset(&hvcc->array[i], 0, sizeof(HVCCNALUnitArray));
         hvcc->numOfArrays = index + 1;
     }
 
@@ -830,7 +830,7 @@ end:
 
 static void hvcc_init(HEVCDecoderConfigurationRecord *hvcc)
 {
-    memset_s(hvcc, 0, sizeof(HEVCDecoderConfigurationRecord));
+    memset(hvcc, 0, sizeof(HEVCDecoderConfigurationRecord));
     hvcc->configurationVersion = 1;
     hvcc->lengthSizeMinusOne   = 3; // 4 bytes
 

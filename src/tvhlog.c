@@ -184,7 +184,7 @@ tvhlog_subsys_t tvhlog_subsystems[] = {
 #if ENABLE_DDCI
   [LS_DDCI]          = { "ddci",          N_("DD-CI") },
 #endif
-  [LS_UDP]           = { "udp",           N_("UDP Streamer") },
+  [LS_UDP]           = { "udp",           N_("UDP Streamer") },  
 
 };
 
@@ -216,7 +216,7 @@ tvhlog_set_subsys ( bitops_ulong_t *c, const char *subsys )
   uint_fast32_t a, i;
   char *s, *t, *r = NULL;
 
-  memset_s(c, 0, TVHLOG_BITARRAY * sizeof(bitops_ulong_t));
+  memset(c, 0, TVHLOG_BITARRAY * sizeof(bitops_ulong_t));
 
   if (!subsys)
     return;
@@ -233,7 +233,7 @@ tvhlog_set_subsys ( bitops_ulong_t *c, const char *subsys )
     }
     if (!*t) goto next;
     if (!strcmp(t, "all")) {
-      memset_s(c, a ? 0xff : 0, TVHLOG_BITARRAY * sizeof(bitops_ulong_t));
+      memset(c, a ? 0xff : 0, TVHLOG_BITARRAY * sizeof(bitops_ulong_t));
     } else {
       for (i = 0; i < LS_LAST; i++)
         if (!strcmp(tvhlog_subsystems[i].name, t)) {
@@ -573,8 +573,8 @@ tvhlog_init ( int level, int options, const char *path )
   atomic_set(&tvhlog_level, level);
   tvhlog_options = options;
   tvhlog_path    = path ? strdup(path) : NULL;
-  memset_s(tvhlog_trace, 0, sizeof(tvhlog_trace));
-  memset_s(tvhlog_debug, 0, sizeof(tvhlog_debug));
+  memset(tvhlog_trace, 0, sizeof(tvhlog_trace));
+  memset(tvhlog_debug, 0, sizeof(tvhlog_debug));
   tvhlog_run     = 1;
   openlog("tvheadend", LOG_PID, LOG_DAEMON);
   tvh_mutex_init(&tvhlog_mutex, NULL);

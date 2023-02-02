@@ -347,7 +347,7 @@ http_auth_header
 void
 http_send_header(http_connection_t *hc, int rc, const char *content,
 		 int64_t contentlen,
-		 const char *encoding, const char *location,
+		 const char *encoding, const char *location, 
 		 int maxage, const char *range,
 		 const char *disposition,
 		 http_arg_list_t *args)
@@ -362,7 +362,7 @@ http_send_header(http_connection_t *hc, int rc, const char *content,
 
   htsbuf_queue_init(&hdrs, 0);
 
-  htsbuf_qprintf(&hdrs, "%s %d %s\r\n",
+  htsbuf_qprintf(&hdrs, "%s %d %s\r\n", 
 		 http_ver2str(hc->hc_version), rc, http_rc2str(rc));
 
   if (hc->hc_version != RTSP_VERSION_1_0){
@@ -374,7 +374,7 @@ http_send_header(http_connection_t *hc, int rc, const char *content,
                             "Access-Control-Allow-Credentials: true\r\n");
     }
   }
-
+  
   if(maxage == 0) {
     if (hc->hc_version != RTSP_VERSION_1_0)
       htsbuf_append_str(&hdrs, "Cache-Control: no-cache\r\n");
@@ -382,21 +382,21 @@ http_send_header(http_connection_t *hc, int rc, const char *content,
     time(&t);
 
     tm = gmtime_r(&t, &tm0);
-    htsbuf_qprintf(&hdrs,
+    htsbuf_qprintf(&hdrs, 
                 "Last-Modified: %s, %d %s %02d %02d:%02d:%02d GMT\r\n",
-                cachedays[tm->tm_wday], tm->tm_mday,
+                cachedays[tm->tm_wday], tm->tm_mday, 
                 cachemonths[tm->tm_mon], tm->tm_year + 1900,
                 tm->tm_hour, tm->tm_min, tm->tm_sec);
 
     t += maxage;
 
     tm = gmtime_r(&t, &tm0);
-    htsbuf_qprintf(&hdrs,
+    htsbuf_qprintf(&hdrs, 
 		"Expires: %s, %d %s %02d %02d:%02d:%02d GMT\r\n",
 		cachedays[tm->tm_wday],	tm->tm_mday,
                 cachemonths[tm->tm_mon], tm->tm_year + 1900,
 		tm->tm_hour, tm->tm_min, tm->tm_sec);
-
+      
     htsbuf_qprintf(&hdrs, "Cache-Control: max-age=%d\r\n", maxage);
   }
 
@@ -451,7 +451,7 @@ __noauth:
 
   if(disposition != NULL)
     htsbuf_qprintf(&hdrs, "Content-Disposition: %s\r\n", disposition);
-
+  
   if(hc->hc_cseq) {
     htsbuf_qprintf(&hdrs, "CSeq: %"PRIu64"\r\n", hc->hc_cseq);
     if (++hc->hc_cseq == 0)
@@ -636,7 +636,7 @@ http_check_local_ip( http_connection_t *hc )
  * Transmit a HTTP reply
  */
 static void
-http_send_reply(http_connection_t *hc, int rc, const char *content,
+http_send_reply(http_connection_t *hc, int rc, const char *content, 
 		const char *encoding, const char *location, int maxage)
 {
   size_t size = hc->hc_reply.hq_size;
@@ -654,7 +654,7 @@ http_send_reply(http_connection_t *hc, int rc, const char *content,
   http_send_begin(hc);
   http_send_header(hc, rc, content, size,
 		   encoding, location, maxage, 0, NULL, NULL);
-
+  
   if(!hc->hc_no_output) {
     if (data == NULL)
       tcp_write_queue(hc->hc_fd, &hc->hc_reply);
@@ -1040,7 +1040,7 @@ http_verify_callback(void *aux, const char *passwd)
 static int
 http_verify_prepare(http_connection_t *hc, struct http_verify_structure *v)
 {
-  memset_s(v, 0, sizeof(*v));
+  memset(v, 0, sizeof(*v));
   if (hc->hc_authhdr) {
 
     if (hc->hc_nonce == NULL)
@@ -1067,7 +1067,7 @@ http_verify_prepare(http_connection_t *hc, struct http_verify_structure *v)
 
     if (qop == NULL || uri == NULL)
       goto end;
-
+     
     if (strcasecmp(qop, "auth-int") == 0) {
       m = http_get_digest_hash(v->algo, hc->hc_post_data ?: "");
       snprintf(all, sizeof(all), "%s:%s:%s", method, uri, m);
@@ -1224,7 +1224,7 @@ http_websocket_valid(http_connection_t *hc)
  * Execute url callback
  *
  * Returns 1 if we should disconnect
- *
+ * 
  */
 static int
 http_exec(http_connection_t *hc, http_path_t *hp, char *remain)
@@ -1468,7 +1468,7 @@ process_request(http_connection_t *hc, htsbuf_queue_t *spill)
     /* Keep-alive is default off, but can be enabled */
     hc->hc_keep_alive = v != NULL && !strcasecmp(v, "keep-alive");
     break;
-
+    
   case HTTP_VERSION_1_1:
     /* Keep-alive is default on, but can be disabled */
     hc->hc_keep_alive = !(v != NULL && !strcasecmp(v, "close"));
@@ -1953,7 +1953,7 @@ http_serve_requests(http_connection_t *hc)
 
       if ((cmdline = tcp_read_line(hc->hc_fd, &spill)) == NULL)
         goto error;  /* No more data after the PROXY protocol */
-
+        
       delim = '.';
       if (strncmp(s, "TCP6 ", 5) == 0) {
         delim = ':';
@@ -1978,7 +1978,7 @@ http_serve_requests(http_connection_t *hc)
       /* Check length */
       if ((c-s) < 7) goto error;
       if ((c-s) > (delim == ':' ? 45 : 15)) goto error;
-
+      
       /* Add null terminator */
       *c = '\0';
 
@@ -1991,7 +1991,7 @@ http_serve_requests(http_connection_t *hc)
 
     if((n = http_tokenize(cmdline, argv, 3, -1)) != 3)
       goto error;
-
+    
     if((hc->hc_cmd = str2val(argv[0], HTTP_cmdtab)) == -1)
       goto error;
 
@@ -2057,14 +2057,14 @@ error:
  *
  */
 static void
-http_serve(int fd, void **opaque, struct sockaddr_storage *peer,
+http_serve(int fd, void **opaque, struct sockaddr_storage *peer, 
 	   struct sockaddr_storage *self)
 {
   http_connection_t hc;
 
   /* Note: global_lock held on entry */
   tvh_mutex_unlock(&global_lock);
-  memset_s(&hc, 0, sizeof(http_connection_t));
+  memset(&hc, 0, sizeof(http_connection_t));
   *opaque = &hc;
 
   hc.hc_subsys  = LS_HTTP;

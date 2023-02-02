@@ -57,7 +57,7 @@ _epgdb_v3_process( char **sect, htsmsg_t *m, epggrab_stats_t *stats )
   if ( (s = htsmsg_get_str(m, "__section__")) ) {
     if (*sect) free(*sect);
     *sect = strdup(s);
-
+  
   /* Broadcasts */
   } else if ( !strcmp(*sect, "broadcasts") ) {
     if (epg_broadcast_deserialize(m, 1, &save)) stats->broadcasts.total++;
@@ -143,7 +143,7 @@ void epg_init ( void )
     return;
   }
 
-  memset_s(&act, 0, sizeof(act));
+  memset (&act, 0, sizeof(act));
   act.sa_sigaction = epg_mmap_sigbus;
   act.sa_flags = SA_SIGINFO;
   if (sigaction(SIGBUS, &act, &oldact)) {
@@ -151,7 +151,7 @@ void epg_init ( void )
     close(fd);
     return;
   }
-
+  
   /* Map file to memory */
   if ( fstat(fd, &st) != 0 ) {
     tvherror(LS_EPGDB, "failed to detect database size");
@@ -189,7 +189,7 @@ void epg_init ( void )
   tvhinfo(LS_EPGDB, "parsing %zd bytes", remain);
 
   /* Process */
-  memset_s(&stats, 0, sizeof(stats));
+  memset(&stats, 0, sizeof(stats));
   while ( remain > 4 ) {
 
     /* Get message length */
@@ -357,7 +357,7 @@ void epg_save ( void )
     gtimer_arm_rel(&epggrab_save_timer, epg_save_callback, NULL,
                    epggrab_conf.epgdb_periodicsave * 3600);
 
-  memset_s(&stats, 0, sizeof(stats));
+  memset(&stats, 0, sizeof(stats));
   if ( _epg_write_sect(sb, "config") ) goto error;
   if (_epg_write(sb, epg_config_serialize())) goto error;
   if ( _epg_write_sect(sb, "broadcasts") ) goto error;

@@ -609,7 +609,7 @@ emm_filter(emm_reass_t *ra, const uint8_t *data, int len, void *mux,
 void
 emm_reass_init(emm_reass_t *ra, int subsys, uint16_t caid)
 {
-  memset_s(ra, 0, sizeof(*ra));
+  memset(ra, 0, sizeof(*ra));
   ra->subsys = subsys;
   ra->caid = caid;
   ra->type = detect_card_type(caid);
@@ -645,7 +645,7 @@ emm_reass_done(emm_reass_t *ra)
   free(ra->providers);
   if (ra->type == CARD_CRYPTOWORKS)
     free(RA_CRYPTOWORKS(ra).shared_emm);
-  memset_s(&ra, 0, sizeof(ra));
+  memset(&ra, 0, sizeof(ra));
 }
 
 /*

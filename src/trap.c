@@ -283,7 +283,7 @@ trap_init(const char *ver)
   else
     self[r] = 0;
 
-  memset_s(digest, 0, sizeof(digest));  
+  memset(digest, 0, sizeof(digest));  
   if((fd = open("/proc/self/exe", O_RDONLY)) != -1) {
     struct stat st;
     if(!fstat(fd, &st)) {
@@ -337,7 +337,7 @@ trap_init(const char *ver)
   backtrace(frames, MAXFRAMES);
 #endif
 
-  memset_s(&sa, 0, sizeof(sa));
+  memset(&sa, 0, sizeof(sa));
 
   sigset_t m;
   sigemptyset(&m);

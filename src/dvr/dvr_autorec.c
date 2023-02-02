@@ -251,7 +251,7 @@ dvr_autorec_cmp(dvr_autorec_entry_t *dae, epg_broadcast_t *e)
 
   if(dae->dae_content_type != 0) {
     epg_genre_t ct;
-    memset_s(&ct, 0, sizeof(ct));
+    memset(&ct, 0, sizeof(ct));
     ct.code = dae->dae_content_type;
     if (!epg_genre_list_contains(&e->genre, &ct, 1))
       return 0;

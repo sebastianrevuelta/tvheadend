@@ -148,7 +148,7 @@ ebml_append_pad(htsbuf_queue_t *q, size_t pad)
   pad -= pad > 0x7e;
 
   void *data = alloca(pad);
-  memset_s(data, 0, pad);
+  memset(data, 0, pad);
   ebml_append_bin(q, 0xec, data, pad);
 }
 

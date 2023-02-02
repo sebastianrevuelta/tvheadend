@@ -588,7 +588,7 @@ mk_build_segment_header(int64_t size)
 
   u8[0] = 1;
   if(size == 0) {
-    memset_s(u8+1, 0xff, 7);
+    memset(u8+1, 0xff, 7);
   } else {
     u8[1] = size >> 56;
     u8[2] = size >> 48;
@@ -770,7 +770,7 @@ _mk_build_metadata(const dvr_entry_t *de, const epg_broadcast_t *ebc,
   addtag(q, build_tag_string("ORIGINAL_MEDIA_TYPE", "TV", NULL, 0, NULL));
 
   if(de && de->de_content_type) {
-    memset_s(&eg0, 0, sizeof(eg0));
+    memset(&eg0, 0, sizeof(eg0));
     eg0.code = de->de_content_type;
     eg = &eg0;
   } else if (ebc) {

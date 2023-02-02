@@ -187,7 +187,7 @@ tvh_codec_profile_get_title(TVHCodecProfile *self)
 {
     static __thread char profile_title[TVH_TITLE_LEN];
 
-    memset_s(profile_title, 0, sizeof(profile_title));
+    memset(profile_title, 0, sizeof(profile_title));
     if (str_snprintf(profile_title, sizeof(profile_title),
             (self->description && strcmp(self->description, "")) ? "%s (%s)" : "%s%s",
             self->name, self->description ? self->description : "")) {
@@ -341,7 +341,7 @@ tvh_codec_profile_remove(TVHCodecProfile *self, int delete)
 {
     char uuid[UUID_HEX_SIZE];
 
-    memset_s(uuid, 0, sizeof(uuid));
+    memset(uuid, 0, sizeof(uuid));
     idnode_save_check(&self->idnode, delete);
     if (delete) {
         hts_settings_remove("codec/%s", idnode_uuid_as_str(&self->idnode, uuid));

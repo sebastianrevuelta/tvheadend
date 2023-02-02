@@ -1072,7 +1072,7 @@ static void mapping_changed(idnode_t *in)
 
   if (!w->mapall)
     return;
-  memset_s(&conf, 0, sizeof(conf));
+  memset(&conf, 0, sizeof(conf));
   conf.type_tags = 1;
   conf.encrypted = 1;
   conf.provider_tags = w->provtags;

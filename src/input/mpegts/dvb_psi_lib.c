@@ -219,7 +219,7 @@ mpegts_table_state_reset
   st->complete = 0;
   st->version = MPEGTS_PSI_VERSION_NONE;
   st->last = last;
-  memset_s(st->sections, 0, sizeof(st->sections));
+  memset(st->sections, 0, sizeof(st->sections));
   for (i = 0; i < last / 32; i++)
     st->sections[i] = 0xFFFFFFFF;
   st->sections[last / 32] = 0xFFFFFFFF << (31 - (last % 32));
@@ -437,7 +437,7 @@ void dvb_table_parse_init
   ( mpegts_psi_table_t *mt, const char *name, int subsys, int pid,
     uint8_t table, uint8_t mask, void *opaque )
 {
-  memset_s(mt, 0, sizeof(*mt));
+  memset(mt, 0, sizeof(*mt));
   mt->mt_name = strdup(name);
   mt->mt_subsys = subsys;
   mt->mt_opaque = opaque;
@@ -541,7 +541,7 @@ int dvb_table_remux
     l = MIN(m, len);
     memcpy(obuf + ol, buf, l);
     if (l < m)
-      memset_s(obuf + ol + l, 0xff, m - l);
+      memset(obuf + ol + l, 0xff, m - l);
     ol  += m;
     len -= l;
     buf += l;

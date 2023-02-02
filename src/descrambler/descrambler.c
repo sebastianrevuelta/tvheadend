@@ -298,7 +298,7 @@ descrambler_load_hints(htsmsg_t *m)
   HTSMSG_FOREACH(f, m) {
     if (!(e = htsmsg_field_get_map(f))) continue;
     if ((s = htsmsg_get_str(e, "caid")) == NULL) continue;
-    memset_s(&hint, 0, sizeof(hint));
+    memset(&hint, 0, sizeof(hint));
     hint.dh_caid = strtol(s, NULL, 16);
     hint.dh_mask = 0xffff;
     if ((s = htsmsg_get_str(e, "mask")) != NULL)
@@ -880,7 +880,7 @@ descrambler_flush_table_data( service_t *t )
   tvh_mutex_unlock(&mux->mm_descrambler_lock);
 }
 
-static inline void
+static inline void 
 key_update( service_t *t, th_descrambler_key_t *tk, uint8_t key, int64_t timestamp )
 {
   /* set the even (0) or odd (0x40) key index */
@@ -1063,7 +1063,7 @@ descrambler_descramble ( service_t *t,
     tk = &dr->dr_keys[0];
   } else {
     tk = (tsb[3] & 0x80) != 0 ? key_find_struct(dr, tsb, t) : dr->dr_key_last;
-  }
+  }  
 
   if (dr->dr_queue_total == 0 && (tsb[3] & 0x80) == 0) {
     if (tk && tk->key_csa.csa_type != DESCRAMBLER_NONE) {

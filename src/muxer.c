@@ -286,7 +286,7 @@ muxer_config_free(muxer_config_t *m_cfg)
     free(m_cfg->u.pass.m_cmdline);
     free(m_cfg->u.pass.m_mime);
   }
-  memset_s(m_cfg, 0, sizeof(*m_cfg));
+  memset(m_cfg, 0, sizeof(*m_cfg));
 }
 
 
@@ -345,7 +345,7 @@ muxer_create(muxer_config_t *m_cfg, muxer_hints_t *hints)
   }
   
   memcpy(&m->m_config, m_cfg, sizeof(muxer_config_t));
-  memset_s(m_cfg, 0, sizeof(*m_cfg));
+  memset(m_cfg, 0, sizeof(*m_cfg));
   m->m_hints = hints;
 
   return m;

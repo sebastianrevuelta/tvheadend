@@ -73,7 +73,7 @@ tvhpoll_realloc_events1 ( tvhpoll_t *tp, int fd )
 {
   uint32_t diff = tp->events_off - fd;
   uint8_t *evs = malloc(tp->nevents + diff);
-  memset_s(evs, 0, diff);
+  memset(evs, 0, diff);
   memcpy(evs + diff, tp->events, tp->nevents);
   free(tp->events);
   tp->events = evs;
@@ -86,7 +86,7 @@ tvhpoll_realloc_events2 ( tvhpoll_t *tp, int fd )
 {
   uint32_t size = (fd - tp->events_off) + 4;
   tp->events = realloc(tp->events, size);
-  memset_s(tp->events + tp->nevents, 0, size - tp->nevents);
+  memset(tp->events + tp->nevents, 0, size - tp->nevents);
   tp->nevents = size;
 }
 

@@ -337,7 +337,7 @@ cccam_decode_card_data_reply(cccam_t *cccam, uint8_t *msg)
     return -ENOMEM;
 
   msg2 = msg + 25;
-  memset_s(saa, 0, nprov * 8);
+  memset(saa, 0, nprov * 8);
   for (i = 0; i < nprov; i++) {
     pid[i] = msg2;
     psa[i] = cccam_set_sa(saa + i * 8, msg2 + 3);
@@ -640,7 +640,7 @@ cccam_send_login(cccam_t *cccam)
   l = MIN(strlen(cccam->cc_username), 20);
 
   /* send username */
-  memset_s(buf + l, 0, 20 - l);
+  memset(buf + l, 0, 20 - l);
   memcpy(buf, cccam->cc_username, l);
   cccam_send_msg(cccam, MSG_NO_HEADER, buf, 20, 0, 0, 0);
 
@@ -681,7 +681,7 @@ cccam_send_cli_data(cccam_t *cccam)
   const int32_t size = 20 + 8 + 6 + 26 + 4 + 28 + 1;
   uint8_t buf[size];
 
-  memset_s(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));
   strncpy((char *)buf, cccam->cc_username ?: "", 20);
   memcpy(buf + 20, cccam->cccam_nodeid, 8);
   buf[28] = 0; // TODO: wantemus = 1;

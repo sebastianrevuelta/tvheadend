@@ -78,11 +78,11 @@ static char * crypt_md5(const char *pw, const char *salt);
 /**
  *
  */
-static void
+static void 
 des_key_parity_adjust(uint8_t *key, uint8_t len)
 {
   uint8_t i, j, parity;
-
+  
   for (i = 0; i < len; i++) {
     parity = 1;
     for (j = 1; j < 8; j++) if ((key[i] >> j) & 0x1) parity = ~parity & 0x01;
@@ -148,7 +148,7 @@ des_encrypt(uint8_t *buffer, int len, cwc_t *cwc)
 /**
  *
  */
-static int
+static int 
 des_decrypt(uint8_t *buffer, int len, cwc_t *cwc)
 {
   DES_cblock ivec, nextIvec;
@@ -165,7 +165,7 @@ des_decrypt(uint8_t *buffer, int len, cwc_t *cwc)
     DES_ecb_encrypt((DES_cblock *)ptr, (DES_cblock *)ptr, &cwc->cwc_k1, 0);
     DES_ecb_encrypt((DES_cblock *)ptr, (DES_cblock *)ptr, &cwc->cwc_k2, 1);
     DES_ncbc_encrypt(ptr, ptr, 8, &cwc->cwc_k1, &ivec, 0);
-  }
+  } 
   tvhlog_hexdump(cwc->cc_subsys, buffer, len);
   for (i = 2; i < len; i++) checksum ^= buffer[i];
   if (checksum) return -1;
@@ -181,7 +181,7 @@ des_make_login_key(cwc_t *cwc, uint8_t *k)
   uint8_t des14[14], spread[16];
   int i;
 
-  for (i = 0; i < 14; i++)
+  for (i = 0; i < 14; i++) 
     des14[i] = cwc->cwc_confedkey[i] ^ k[i];
   des_key_spread(des14, spread);
 
@@ -463,7 +463,7 @@ cwc_running_reply(cwc_t *cwc, uint8_t msgtype, uint8_t *msg, int len)
         }
 
         caclient_set_status((caclient_t *)cwc, CACLIENT_STATUS_CONNECTED);
-
+        
         u8 = &msg[8];
         if (caid_is_betacrypt(caid) || caid_is_irdeto(caid)) {
           const char *n = caid2name(caid) ?: "Unknown";
@@ -471,7 +471,7 @@ cwc_running_reply(cwc_t *cwc, uint8_t msgtype, uint8_t *msg, int len)
           if (provid != 0) {
             tvhdebug(cwc->cc_subsys, "%s: Bad provider for %s-card [CAID:%04X Provider:0x%06X], using zero",
                      cwc->cc_name, n, caid, provid);
-            memset_s(u8, 0, 3);
+            memset(u8, 0, 3);
           }
         }
         cc_new_card((cclient_t *)cwc, caid, 0, NULL, 1, &u8, NULL, 1);
@@ -581,7 +581,7 @@ cwc_init_session(void *cc)
    */
   if (cwc_send_login(cwc))
     return -1;
-
+  
   if (cwc_read_message(cwc, "Wait login response", buf, sizeof(buf), 5000) < 0)
     return -1;
 
@@ -887,7 +887,7 @@ crypt_md5(const char *pw, const char *salt)
         MD5_Update(&ctx,(unsigned char *)final,pl>16 ? 16 : pl);
 
     /* Don't leave anything around in vm they could use. */
-    memset_s(final,0,sizeof final);
+    memset(final,0,sizeof final);
 
     /* Then something really weird... */
     for (j=0,i = strlen(pw); i ; i >>= 1)
@@ -941,7 +941,7 @@ crypt_md5(const char *pw, const char *salt)
     *p = '\0';
 
     /* Don't leave anything around in vm they could use. */
-    memset_s(final,0,sizeof final);
+    memset(final,0,sizeof final);
 
     return passwd;
 }

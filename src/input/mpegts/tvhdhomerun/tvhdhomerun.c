@@ -366,7 +366,7 @@ static void tvhdhomerun_device_create(struct hdhomerun_discover_device_t *dInfo)
   char fName[128];
   snprintf(fName, 128, "HDHomeRun(%08X)",dInfo->device_id);
 
-  memset_s(&hd->hd_info.ip_address, 0, sizeof(hd->hd_info.ip_address));
+  memset(&hd->hd_info.ip_address, 0, sizeof(hd->hd_info.ip_address));
   hd->hd_info.ip_address.ss_family = AF_INET;
   ((struct sockaddr_in *)&hd->hd_info.ip_address)->sin_addr.s_addr = htonl(dInfo->ip_addr);
   hd->hd_info.uuid = strdup(uhex);
@@ -435,7 +435,7 @@ tvhdhomerun_device_discovery_thread( void *aux )
             } else if ( ((struct sockaddr_in *)&existing->hd_info.ip_address)->sin_addr.s_addr !=
                      htonl(cDev->ip_addr) ) {
               struct sockaddr_storage detected_dev_addr;
-              memset_s(&detected_dev_addr, 0, sizeof(detected_dev_addr));
+              memset(&detected_dev_addr, 0, sizeof(detected_dev_addr));
               detected_dev_addr.ss_family = AF_INET;
               ((struct sockaddr_in *)&detected_dev_addr)->sin_addr.s_addr = htonl(cDev->ip_addr);
 

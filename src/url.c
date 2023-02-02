@@ -37,7 +37,7 @@ urlreset ( url_t *url )
   free(url->query);
   free(url->frag);
   free(url->raw);
-  memset_s(url, 0, sizeof(*url));
+  memset(url, 0, sizeof(*url));
 }
 
 void

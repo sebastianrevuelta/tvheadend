@@ -84,7 +84,7 @@ void timeshift_init ( void )
   timeshift_filemgr_init();
 
   /* Defaults */
-  memset_s(&timeshift_conf, 0, sizeof(timeshift_conf));
+  memset(&timeshift_conf, 0, sizeof(timeshift_conf));
   timeshift_conf.idnode.in_class = &timeshift_conf_class;
   timeshift_conf.max_period       = 60;                      // Hr (60mins)
   timeshift_conf.max_size         = 10000 * (size_t)1048576; // 10G

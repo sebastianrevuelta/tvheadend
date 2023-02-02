@@ -172,7 +172,7 @@ codec_profile_audio_class_language_list(void *obj, const char *lang)
             map = htsmsg_create_key_val("", tvh_gettext_lang(lang, N_("Use original")));
         }
         else {
-            memset_s(lc_buf, 0, sizeof(lc_buf));
+            memset(lc_buf, 0, sizeof(lc_buf));
             if (!str_snprintf(lc_buf, sizeof(lc_buf), "%s (%s)", lc->desc, lc->code2b)) {
                 map = htsmsg_create_key_val(lc->code2b, lc_buf);
             }

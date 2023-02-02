@@ -475,7 +475,7 @@ mpegts_service_setsourceinfo(service_t *t, source_info_t *si)
   assert(s->s_source_type == S_MPEG_TS);
 
   /* Update */
-  memset_s(si, 0, sizeof(struct source_info));
+  memset(si, 0, sizeof(struct source_info));
   si->si_type = S_MPEG_TS;
 
   uuid_duplicate(&si->si_network_uuid, &m->mm_network->mn_id.in_uuid);
@@ -527,8 +527,8 @@ mpegts_service_grace_period(service_t *t)
 
   if (mi && mi->mi_get_grace)
     r = mi->mi_get_grace(mi, mm);
-
-  return r ?: 10;
+  
+  return r ?: 10;  
 }
 
 /*
@@ -868,7 +868,7 @@ mpegts_service_create0
   if ((r = dvb_servicetype_lookup(s->s_dvb_servicetype)) != -1)
     s->s_servicetype = r;
   LIST_INSERT_HEAD(&mm->mm_services, s, s_dvb_mux_link);
-
+  
   s->s_delete         = mpegts_service_delete;
   s->s_unref          = mpegts_service_unref;
   s->s_is_enabled     = mpegts_service_is_enabled;
@@ -916,7 +916,7 @@ mpegts_service_create0
  */
 mpegts_service_t *
 mpegts_service_find
-  ( mpegts_mux_t *mm, uint16_t sid, uint16_t pmt_pid,
+  ( mpegts_mux_t *mm, uint16_t sid, uint16_t pmt_pid, 
     int create, int *save )
 {
   mpegts_service_t *s;

@@ -1,6 +1,6 @@
 /*
  *  Teletext parsing functions
- *  Copyright (C) 2007 Andreas ï¿½man
+ *  Copyright (C) 2007 Andreas Öman
  *  Copyright (C) 2014 Jaroslav Kysela
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -124,16 +124,16 @@ static const uint8_t hamtable[] = {
 #define SUBSET_CZECH_SLOVAK    1  /* Cesky / Slovencina */
 #define SUBSET_ENGLISH         2  /* English */
 #define SUBSET_ESTONIAN        3  /* Eesti */
-#define SUBSET_FRENCH          4  /* Franï¿½ais */
+#define SUBSET_FRENCH          4  /* Français */
 #define SUBSET_GERMAN          5  /* German / Deutch */
 #define SUBSET_ITALIAN         6  /* Italiano */
 #define SUBSET_LETT_LITH       7  /* Lettish / Lietuviskai */
 #define SUBSET_POLISH          8  /* Polski */
-#define SUBSET_PORTUG_SPANISH  9  /* Portuguï¿½s / Espaï¿½ol */
-#define SUBSET_RUMANIAN        10 /* Romï¿½na */
+#define SUBSET_PORTUG_SPANISH  9  /* Português / Español */
+#define SUBSET_RUMANIAN        10 /* Româna */
 #define SUBSET_SERB_CRO_SLO    11 /* Srpski / Hrvatski / Slovenscina */
 #define SUBSET_SWE_FIN_HUN     12 /* Svenska / Suomi / Magyar */
-#define SUBSET_TURKISH         13 /* Tï¿½rkï¿½e */
+#define SUBSET_TURKISH         13 /* Türkçe */
 #define SUBSET_LAST            SUBSET_TURKISH
 
 #define SUBSET_CHARMAP_COUNT   13
@@ -888,7 +888,7 @@ tt_decode_line(parser_t *t, parser_es_t *st, uint8_t *buf)
       if(ttm->ttm_curpage == 192)
 	teletext_rundown_copy(ttp, ttm);
 
-      memset_s(ttm->ttm_page, ' ', 23 * 40);
+      memset(ttm->ttm_page, ' ', 23 * 40);
       ttm->ttm_curpage = 0;
     }
 
@@ -910,7 +910,7 @@ tt_decode_line(parser_t *t, parser_es_t *st, uint8_t *buf)
 
     if(s12 & 0x80) {
       /* Erase page */
-      memset_s(ttm->ttm_page, ' ', 23 * 40);
+      memset(ttm->ttm_page, ' ', 23 * 40);
     }
 
     if(update_tt_clock(t, buf + 34))

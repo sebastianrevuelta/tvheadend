@@ -151,7 +151,7 @@ ts_recv_packet1
   elementary_stream_t *st;
   uint_fast8_t scrambled, error = 0;
   int r;
-
+  
   /* Error */
   if (tsb[1] & 0x80)
     error = 1;
@@ -299,7 +299,7 @@ ts_flush(mpegts_service_t *t, sbuf_t *sb)
   pb = pktbuf_alloc(sb->sb_data, sb->sb_ptr);
   pb->pb_err = sb->sb_err;
 
-  memset_s(&sm, 0, sizeof(sm));
+  memset(&sm, 0, sizeof(sm));
   sm.sm_type = SMT_MPEGTS;
   sm.sm_data = pb;
   streaming_service_deliver((service_t *)t, streaming_msg_clone(&sm));
@@ -365,7 +365,7 @@ ts_resync ( const uint8_t *tsb, int *len, int *idx )
   int err = 1;
   while (err && (*len > 376)) {
     (*idx)++; (*len)--;
-    err = (tsb[*idx] != 0x47) || (tsb[*idx+188] != 0x47) ||
+    err = (tsb[*idx] != 0x47) || (tsb[*idx+188] != 0x47) || 
           (tsb[*idx+376] != 0x47);
   }
   return err;

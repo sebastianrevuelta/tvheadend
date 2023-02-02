@@ -160,7 +160,7 @@ tvh_audio_context_open_filters(TVHContext *self, AVDictionary **opts)
     int resample = (self->iavctx->sample_rate != self->oavctx->sample_rate);
 
     // source args
-    memset_s(source_args, 0, sizeof(source_args));
+    memset(source_args, 0, sizeof(source_args));
     av_get_channel_layout_string(layout, sizeof(layout), self->iavctx->channels, self->iavctx->channel_layout);
     if (str_snprintf(source_args, sizeof(source_args),
             "time_base=%d/%d:sample_rate=%d:sample_fmt=%s:channel_layout=%s",
@@ -177,7 +177,7 @@ tvh_audio_context_open_filters(TVHContext *self, AVDictionary **opts)
         resample = 1;
 
     // context filters
-    memset_s(filters, 0, sizeof(filters));
+    memset(filters, 0, sizeof(filters));
     if (str_snprintf(filters, sizeof(filters), "%s",
                      (resample) ? "aresample" : "anull")) {
         return -1;

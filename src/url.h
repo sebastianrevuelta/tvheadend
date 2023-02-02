@@ -37,7 +37,7 @@ typedef struct url
   char  *raw;
 } url_t;
 
-static inline void urlinit ( url_t *url ) { memset_s(url, 0, sizeof(*url)); }
+static inline void urlinit ( url_t *url ) { memset(url, 0, sizeof(*url)); }
 void urlreset ( url_t *url );
 int urlparse ( const char *str, url_t *url );
 void urlparse_done ( void );
