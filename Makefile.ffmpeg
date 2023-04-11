@@ -33,7 +33,7 @@ unexport LDFLAGS
 # ##############################################################################
 
 EXTLIBS        =
-COMPONENTS     = avutil avcodec avformat swscale avresample swresample avfilter
+COMPONENTS     = avutil avcodec avformat swscale swresample avfilter
 PROTOCOLS      = file http https hls mmsh mmst rtmp rtmpe rtmps rtmpt rtmpte rtmpts \
                  ffrtmpcrypt ffrtmphttp rtp srtp tcp udp udplite unix crypto
 DECODERS       = mpeg2video mp2 aac vorbis ac3 eac3 aac_latm opus h264 hevc theora flac
@@ -44,11 +44,11 @@ BSFS           = h264_mp4toannexb hevc_mp4toannexb
 FILTERS        = yadif format hwupload hwdownload scale null aresample anull
 HWACCELS       =
 
-NASM_VER       = 2.15.05
+NASM_VER       = 2.16.01
 NASM           = nasm-$(NASM_VER)
 NASM_TB        = $(NASM).tar.gz
 NASM_URL       = https://www.nasm.us/pub/nasm/releasebuilds/$(NASM_VER)/$(NASM_TB)
-NASM_SHA1      = 8a2a60b01d563c32dd216f94a99a20e6e31fd8aa
+NASM_SHA1      = 13bf04e35e1042dc163d14aa124c68cfa7620871
 NASM_DIFFS     = remove-invalid-pure_func-qualifiers.diff
 
 LIBX264_VER    = d2907f67227cbf38ac957efed84c532b12ce19cc
@@ -108,10 +108,10 @@ FFNVCODEC_TB   = $(FFNVCODEC).tar.gz
 FFNVCODEC_URL  = https://github.com/FFmpeg/nv-codec-headers/releases/download/n$(FFNVCODEC_VER)/nv-codec-headers-$(FFNVCODEC_VER).tar.gz
 FFNVCODEC_SHA1 = 89bee0d3025b813c513084ad8546b0261623fbb0
 
-FFMPEG         = ffmpeg-4.4.3
+FFMPEG         = ffmpeg-5.1.2
 FFMPEG_TB      = $(FFMPEG).tar.bz2
 FFMPEG_URL     = https://ffmpeg.org/releases/$(FFMPEG_TB)
-FFMPEG_SHA1    = a900f77ed16a18421983b499114c1595b8b765f2
+FFMPEG_SHA1    = f5215c15ca50a43856f641c714c6070aa148dd66
 
 
 # ##############################################################################
